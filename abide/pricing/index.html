@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — Abide by Vexora Studio</title>
+<meta name="description" content="Get Abide Pro — unlock all prayer guides, AI Father, unlimited journal and more.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--gold:#c8a84b;--gold2:#e8d5a3;--text:#f0ead8;--muted:rgba(240,234,216,0.5);--dim:rgba(240,234,216,0.25);--border:rgba(200,168,75,0.2);--green:#4caf50;--red:#e05555;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 2rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--text);text-decoration:none;}
+.logo span{color:var(--gold);}
+.back{color:var(--muted);text-decoration:none;font-size:0.82rem;transition:color 0.2s;}
+.back:hover{color:var(--gold);}
+
+/* SCREENS */
+.screen{display:none;padding:7rem 1.5rem 4rem;max-width:900px;margin:0 auto;}
+.screen.active{display:block;}
+
+/* LOADING */
+#loadingScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:1rem;}
+.spinner{width:32px;height:32px;border:2px solid rgba(200,168,75,0.2);border-top:2px solid var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* AUTH */
+.auth-card{background:var(--bg2);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:2.5rem;max-width:400px;margin:0 auto;}
+.auth-icon{text-align:center;font-size:2rem;margin-bottom:1rem;}
+.auth-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;text-align:center;margin-bottom:0.4rem;}
+.auth-sub{font-size:0.82rem;color:var(--muted);text-align:center;margin-bottom:2rem;line-height:1.6;}
+.inp{width:100%;padding:0.9rem 1.1rem;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:var(--bg3);color:var(--text);font-family:'Outfit',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.75rem;transition:border-color 0.2s;}
+.inp:focus{border-color:var(--gold);}
+.btn-gold{width:100%;padding:0.95rem;border-radius:10px;background:var(--gold);color:#0a0a0a;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.9rem;border:none;cursor:pointer;transition:opacity 0.2s;}
+.btn-gold:hover{opacity:0.85;}
+.btn-gold:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-outline{width:100%;padding:0.9rem;border-radius:10px;background:transparent;color:var(--muted);font-family:'Outfit',sans-serif;font-size:0.82rem;border:1px solid rgba(255,255,255,0.1);cursor:pointer;margin-top:0.65rem;transition:all 0.2s;}
+.btn-outline:hover{border-color:var(--border);color:var(--text);}
+.auth-switch{text-align:center;font-size:0.8rem;color:var(--muted);margin-top:1rem;}
+.auth-switch a{color:var(--gold);cursor:pointer;font-weight:500;}
+.err{font-size:0.78rem;color:var(--red);background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.2);border-radius:8px;padding:0.6rem 0.85rem;margin-bottom:0.75rem;}
+.success-msg{font-size:0.78rem;color:var(--green);background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.2);border-radius:8px;padding:0.6rem 0.85rem;margin-bottom:0.75rem;}
+
+/* PRICING */
+.pricing-header{text-align:center;margin-bottom:3rem;}
+.pricing-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:300;margin-bottom:0.75rem;}
+.pricing-header h1 em{font-style:italic;color:var(--gold);}
+.pricing-header p{font-size:0.9rem;color:var(--muted);line-height:1.7;}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;margin-bottom:2.5rem;}
+.plan{background:var(--bg2);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:2rem;position:relative;transition:border-color 0.2s;}
+.plan.featured{border-color:var(--gold);background:linear-gradient(145deg,#131108,#1a1a0f);}
+.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:#0a0a0a;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;padding:3px 14px;border-radius:99px;text-transform:uppercase;white-space:nowrap;}
+.plan-name{font-size:0.68rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:0.75rem;}
+.plan-price{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;margin-bottom:0.25rem;}
+.plan-period{font-size:0.75rem;color:var(--muted);margin-bottom:1.5rem;}
+.plan-features{display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1.75rem;}
+.pf{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.82rem;color:var(--muted);}
+.pf span:first-child{color:var(--gold);flex-shrink:0;}
+.plan-btn{width:100%;padding:0.9rem;border-radius:10px;font-family:'Outfit',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
+.plan-btn.gold{background:var(--gold);color:#0a0a0a;}
+.plan-btn.gold:hover{opacity:0.85;}
+.plan-btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--border);}
+.plan-btn.ghost:hover{background:rgba(200,168,75,0.08);}
+.guarantee{background:var(--bg2);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:1.5rem;text-align:center;margin-bottom:2rem;}
+.guarantee p{font-size:0.82rem;color:var(--muted);line-height:1.7;}
+.guarantee strong{color:var(--text);}
+
+/* CHECKOUT OVERLAY */
+.checkout-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:none;flex-direction:column;}
+.checkout-overlay.open{display:flex;}
+.checkout-header{padding:1rem 1.5rem;background:var(--bg2);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.checkout-header p{font-size:0.88rem;font-weight:600;}
+.close-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.5rem;line-height:1;}
+.checkout-frame{flex:1;border:none;background:#fff;}
+.checkout-footer{padding:1rem 1.5rem;background:var(--bg2);border-top:1px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;gap:0.65rem;align-items:center;}
+.verify-btn{width:100%;max-width:400px;padding:0.9rem;border-radius:10px;background:rgba(200,168,75,0.08);border:1px solid var(--gold);color:var(--gold2);font-family:'Outfit',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.verify-btn:hover{background:rgba(200,168,75,0.15);}
+.secure-note{font-size:0.65rem;color:var(--dim);}
+
+/* DASHBOARD */
+.dash-header{display:flex;align-items:center;gap:1.25rem;background:linear-gradient(145deg,#1e1a0e,#1a1508);border:1.5px solid rgba(200,168,75,0.3);border-radius:20px;padding:2rem;margin-bottom:1.5rem;}
+.dash-avatar{width:56px;height:56px;border-radius:50%;background:var(--bg3);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--gold);flex-shrink:0;}
+.dash-name{font-weight:600;font-size:1.05rem;margin-bottom:0.2rem;}
+.dash-email{font-size:0.75rem;color:var(--muted);}
+.plan-pill{margin-left:auto;padding:0.35rem 0.85rem;border-radius:99px;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+.plan-pill.pro{background:var(--gold);color:#0a0a0a;}
+.plan-pill.free{background:var(--bg3);color:var(--dim);}
+.dash-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.dash-card{background:var(--bg2);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:1.5rem;}
+.dash-card-label{font-size:0.65rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;}
+.dash-card-val{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--text);}
+.dash-card-sub{font-size:0.72rem;color:var(--muted);margin-top:0.2rem;}
+.dash-actions{display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem;}
+.danger-btn{width:100%;padding:0.85rem;border-radius:10px;background:transparent;border:1px solid rgba(224,85,85,0.3);color:var(--red);font-family:'Outfit',sans-serif;font-size:0.82rem;cursor:pointer;transition:all 0.2s;}
+.danger-btn:hover{background:rgba(224,85,85,0.08);}
+
+/* FAQ */
+.faq{margin-top:3rem;}
+.faq h2{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:1.5rem;text-align:center;}
+.faq-item{border-bottom:1px solid rgba(255,255,255,0.06);padding:1.25rem 0;}
+.faq-q{font-weight:600;font-size:0.88rem;margin-bottom:0.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.faq-a{font-size:0.82rem;color:var(--muted);line-height:1.8;display:none;padding-top:0.25rem;}
+.faq-a.open{display:block;}
+.faq-toggle{color:var(--gold);font-size:1.1rem;transition:transform 0.2s;}
+.faq-toggle.open{transform:rotate(45deg);}
+
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:2rem;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:3rem;}
+footer a{color:var(--dim);font-size:0.78rem;text-decoration:none;transition:color 0.2s;}
+footer a:hover{color:var(--gold);}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../../index.html" class="logo">Vexora <span>Studio</span></a>
+  <a href="../index.html" class="back">← Abide</a>
+</nav>
+
+<!-- LOADING -->
+<div id="loadingScreen" style="position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;">
+  <div class="spinner"></div>
+  <p style="font-size:0.8rem;color:var(--muted);">Loading...</p>
+</div>
+
+<!-- AUTH SCREEN -->
+<div class="screen" id="authScreen">
+  <div class="auth-card">
+    <div class="auth-icon">✝</div>
+    <div class="auth-title" id="authTitle">Sign in to Abide</div>
+    <div class="auth-sub" id="authSub">Sign in to manage your plan and unlock Pro features in the app.</div>
+    <div id="authError" class="err" style="display:none;"></div>
+    <div id="authSuccess" class="success-msg" style="display:none;"></div>
+    <div id="nameField" style="display:none;"><input class="inp" id="nameInput" type="text" placeholder="Your name"/></div>
+    <input class="inp" id="emailInput" type="email" placeholder="Email address"/>
+    <input class="inp" id="passInput" type="password" placeholder="Password"/>
+    <button class="btn-gold" id="authBtn" onclick="handleAuth()">Sign In</button>
+    <button class="btn-outline" onclick="toggleMode()">
+      <span id="toggleText">Don't have an account? Sign up</span>
+    </button>
+    <div class="auth-switch" id="forgotLink"><a onclick="forgotPassword()">Forgot password?</a></div>
+  </div>
+</div>
+
+<!-- PRICING SCREEN -->
+<div class="screen" id="pricingScreen">
+  <div class="pricing-header">
+    <h1>Simple, <em>honest</em> pricing</h1>
+    <p>Start free. Upgrade when you're ready. Cancel anytime.</p>
+  </div>
+
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">$0</div>
+      <div class="plan-period">forever</div>
+      <div class="plan-features">
+        <div class="pf"><span>✓</span>Daily verse & prayer</div>
+        <div class="pf"><span>✓</span>3 daily spiritual tasks</div>
+        <div class="pf"><span>✓</span>Streak tracking</div>
+        <div class="pf"><span>✓</span>2 prayer guides</div>
+        <div class="pf"><span>✓</span>5 journal entries</div>
+        <div class="pf"><span>✓</span>Bible reading</div>
+        <div class="pf"><span>✓</span>Verse memorization</div>
+        <div class="pf"><span>✓</span>Confession prayers</div>
+      </div>
+      <button class="plan-btn ghost" onclick="continueFree()">Continue Free</button>
+    </div>
+
+    <div class="plan">
+      <div class="plan-name">Pro Monthly</div>
+      <div class="plan-price">$4.99</div>
+      <div class="plan-period">per month · billed monthly</div>
+      <div class="plan-features">
+        <div class="pf"><span>✓</span>Everything in Free</div>
+        <div class="pf"><span>✓</span>All 8 prayer guides</div>
+        <div class="pf"><span>✓</span>Unlimited AI Father chat</div>
+        <div class="pf"><span>✓</span>AI daily plan generator</div>
+        <div class="pf"><span>✓</span>Unlimited prayer journal</div>
+        <div class="pf"><span>✓</span>Deeper devotionals</div>
+        <div class="pf"><span>✓</span>No ads ever</div>
+      </div>
+      <button class="plan-btn ghost" onclick="startCheckout('monthly')">Get Monthly</button>
+    </div>
+
+    <div class="plan featured">
+      <div class="plan-badge">Best Value — Save 58%</div>
+      <div class="plan-name">Pro Annual</div>
+      <div class="plan-price">$24.99</div>
+      <div class="plan-period">per year · only $2.08/month</div>
+      <div class="plan-features">
+        <div class="pf"><span>✓</span>Everything in Pro Monthly</div>
+        <div class="pf"><span>✓</span>Save 58% vs monthly</div>
+        <div class="pf"><span>✓</span>Exclusive seasonal content</div>
+        <div class="pf"><span>✓</span>Family sharing up to 5</div>
+        <div class="pf"><span>✓</span>Priority support</div>
+      </div>
+      <button class="plan-btn gold" onclick="startCheckout('annual')">Get Annual Plan</button>
+    </div>
+  </div>
+
+  <div class="guarantee">
+    <p><strong>🕊️ 3-day free trial on all Pro plans.</strong> Try Pro completely free. Cancel before the trial ends and you won't be charged anything.</p>
+  </div>
+
+  <div class="faq">
+    <h2>Frequently asked questions</h2>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I cancel? <span class="faq-toggle">+</span></div><div class="faq-a">Cancel anytime from your account dashboard on this page. Your Pro access continues until the end of your billing period.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What payment methods are accepted? <span class="faq-toggle">+</span></div><div class="faq-a">Visa, Mastercard, Amex, PayPal, Apple Pay, Google Pay. Payments secured by Paddle.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Will this unlock Pro in the app? <span class="faq-toggle">+</span></div><div class="faq-a">Yes. Sign in with the same email in the Abide app and Pro will be unlocked automatically.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is the refund policy? <span class="faq-toggle">+</span></div><div class="faq-a">We offer full refunds within 7 days of purchase. Email support@vexorastudio.com.</div></div>
+  </div>
+</div>
+
+<!-- DASHBOARD SCREEN -->
+<div class="screen" id="dashScreen">
+  <div class="dash-header">
+    <div class="dash-avatar" id="dashAvatar">?</div>
+    <div>
+      <div class="dash-name" id="dashName">—</div>
+      <div class="dash-email" id="dashEmail">—</div>
+    </div>
+    <div class="plan-pill" id="planPill">Free</div>
+  </div>
+
+  <div class="dash-cards">
+    <div class="dash-card">
+      <div class="dash-card-label">Current Plan</div>
+      <div class="dash-card-val" id="dashPlan">Free</div>
+      <div class="dash-card-sub" id="dashPlanSub">Basic features included</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-label">Member Since</div>
+      <div class="dash-card-val" id="dashSince">—</div>
+      <div class="dash-card-sub">Account created</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-label">Prayer Streak</div>
+      <div class="dash-card-val" id="dashStreak">—</div>
+      <div class="dash-card-sub">days in a row</div>
+    </div>
+  </div>
+
+  <div id="upgradeSection">
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1rem;">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;margin-bottom:0.5rem;">Upgrade to Pro</p>
+      <p style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem;">Unlock AI Father, all prayer guides, unlimited journal, and more. Same account works in the app.</p>
+      <button class="btn-gold" onclick="showPricing()">View Plans →</button>
+    </div>
+  </div>
+
+  <div id="proSection" style="display:none;">
+    <div style="background:linear-gradient(145deg,#1e1a0e,#1a1508);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1rem;">
+      <p style="font-size:0.65rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:0.75rem;">Pro Features Active</p>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;color:var(--muted);"><span style="color:var(--gold);">✓</span>All prayer guides unlocked</div>
+        <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;color:var(--muted);"><span style="color:var(--gold);">✓</span>Unlimited AI Father chat</div>
+        <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;color:var(--muted);"><span style="color:var(--gold);">✓</span>Unlimited prayer journal</div>
+        <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;color:var(--muted);"><span style="color:var(--gold);">✓</span>AI daily plan generator</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-actions">
+    <button class="btn-outline" onclick="signOut()">Sign Out</button>
+    <button class="danger-btn" onclick="requestDelete()">Request Account Deletion</button>
+  </div>
+</div>
+
+<!-- CHECKOUT OVERLAY -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-header">
+    <p>🔒 Secure Checkout · Powered by Paddle</p>
+    <button class="close-btn" onclick="closeCheckout()">×</button>
+  </div>
+  <iframe class="checkout-frame" id="checkoutFrame" src="about:blank"></iframe>
+  <div class="checkout-footer">
+    <button class="verify-btn" onclick="verifyPayment()">✓ I completed payment — activate Pro</button>
+    <p class="secure-note">Payment processed securely by Paddle · SSL encrypted</p>
+  </div>
+</div>
+
+<footer>
+  <a href="../index.html">Abide App</a>
+  <a href="../../privacy.html">Privacy Policy</a>
+  <a href="../../terms.html">Terms of Service</a>
+  <a href="../../refund.html">Refund Policy</a>
+</footer>
+
+<script>
+// ── CONFIG ── replace with yours
+const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+const PADDLE_MONTHLY_PRICE_ID = 'pri_YOUR_MONTHLY';
+const PADDLE_ANNUAL_PRICE_ID = 'pri_YOUR_ANNUAL';
+
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+let authMode = 'login';
+
+// ── INIT ──
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  document.getElementById('loadingScreen').style.display = 'none';
+  if (session) {
+    currentUser = session.user;
+    await showDashboard();
+  } else {
+    // Check if coming from pricing click — show pricing first if not logged in
+    const intent = localStorage.getItem('checkoutIntent');
+    if (intent) { showScreen('pricingScreen'); }
+    else { showScreen('pricingScreen'); }
+  }
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── AUTH ──
+function toggleMode() {
+  authMode = authMode === 'login' ? 'signup' : 'login';
+  document.getElementById('authTitle').textContent = authMode === 'login' ? 'Sign in to Abide' : 'Create your account';
+  document.getElementById('authSub').textContent = authMode === 'login' ? 'Sign in to manage your plan.' : 'Create an account to get started with Abide.';
+  document.getElementById('authBtn').textContent = authMode === 'login' ? 'Sign In' : 'Create Account';
+  document.getElementById('toggleText').textContent = authMode === 'login' ? "Don't have an account? Sign up" : 'Already have an account? Sign in';
+  document.getElementById('nameField').style.display = authMode === 'signup' ? 'block' : 'none';
+  document.getElementById('forgotLink').style.display = authMode === 'login' ? 'block' : 'none';
+  clearMessages();
+}
+
+function clearMessages() {
+  document.getElementById('authError').style.display = 'none';
+  document.getElementById('authSuccess').style.display = 'none';
+}
+
+function showError(msg) {
+  const el = document.getElementById('authError');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('authSuccess').style.display = 'none';
+}
+
+function showSuccess(msg) {
+  const el = document.getElementById('authSuccess');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('authError').style.display = 'none';
+}
+
+async function handleAuth() {
+  const btn = document.getElementById('authBtn');
+  const email = document.getElementById('emailInput').value.trim();
+  const pass = document.getElementById('passInput').value;
+  const name = document.getElementById('nameInput').value.trim();
+  if (!email || !pass) { showError('Please fill in all fields.'); return; }
+  btn.disabled = true; btn.textContent = 'Please wait...';
+  clearMessages();
+  try {
+    if (authMode === 'signup') {
+      const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { name } } });
+      if (error) { showError(error.message); }
+      else {
+        // Create profile
+        await sb.from('profiles').upsert({ id: data.user.id, name, plan: 'free', streak: 0, created_at: new Date().toISOString() });
+        showSuccess('Account created! Check your email to verify, then sign in.');
+        authMode = 'login';
+        setTimeout(() => toggleMode(), 1500);
+      }
+    } else {
+      const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+      if (error) { showError(error.message); }
+      else { currentUser = data.user; await showDashboard(); }
+    }
+  } catch(e) { showError('Something went wrong. Try again.'); }
+  btn.disabled = false;
+  btn.textContent = authMode === 'login' ? 'Sign In' : 'Create Account';
+}
+
+async function forgotPassword() {
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email) { showError('Enter your email address first.'); return; }
+  const { error } = await sb.auth.resetPasswordForEmail(email);
+  if (error) showError(error.message);
+  else showSuccess('Password reset email sent! Check your inbox.');
+}
+
+// ── DASHBOARD ──
+async function showDashboard() {
+  if (!currentUser) return;
+  const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+  const meta = currentUser.user_metadata;
+  const name = profile?.name || meta?.name || currentUser.email.split('@')[0];
+  const plan = profile?.plan || 'free';
+  const streak = profile?.streak || 0;
+  const since = new Date(currentUser.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+  document.getElementById('dashAvatar').textContent = name[0].toUpperCase();
+  document.getElementById('dashName').textContent = name;
+  document.getElementById('dashEmail').textContent = currentUser.email;
+
+  const isPro = plan !== 'free';
+  const pill = document.getElementById('planPill');
+  pill.textContent = isPro ? 'Pro' : 'Free';
+  pill.className = 'plan-pill ' + (isPro ? 'pro' : 'free');
+
+  document.getElementById('dashPlan').textContent = isPro ? (plan === 'annual' ? 'Pro Annual' : 'Pro Monthly') : 'Free';
+  document.getElementById('dashPlanSub').textContent = isPro ? 'All features unlocked in app' : 'Basic features included';
+  document.getElementById('dashSince').textContent = since;
+  document.getElementById('dashStreak').textContent = streak;
+  document.getElementById('upgradeSection').style.display = isPro ? 'none' : 'block';
+  document.getElementById('proSection').style.display = isPro ? 'block' : 'none';
+
+  showScreen('dashScreen');
+}
+
+async function signOut() {
+  await sb.auth.signOut();
+  currentUser = null;
+  showScreen('pricingScreen');
+}
+
+async function requestDelete() {
+  if (!confirm('Request account deletion? We will delete your account and all data within 7 days.')) return;
+  alert('Deletion request received. Email privacy@vexorastudio.com to confirm. We will delete your account within 7 days.');
+}
+
+function showPricing() { showScreen('pricingScreen'); }
+
+// ── CHECKOUT ──
+function startCheckout(plan) {
+  if (!currentUser) {
+    localStorage.setItem('checkoutIntent', plan);
+    showScreen('authScreen');
+    return;
+  }
+  const priceId = plan === 'annual' ? PADDLE_ANNUAL_PRICE_ID : PADDLE_MONTHLY_PRICE_ID;
+  const email = encodeURIComponent(currentUser.email);
+  const passthrough = encodeURIComponent(JSON.stringify({ userId: currentUser.id }));
+  const url = `https://buy.paddle.com/product/${priceId}?email=${email}&passthrough=${passthrough}`;
+  document.getElementById('checkoutFrame').src = url;
+  document.getElementById('checkoutOverlay').classList.add('open');
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutOverlay').classList.remove('open');
+  document.getElementById('checkoutFrame').src = 'about:blank';
+}
+
+async function verifyPayment() {
+  if (!currentUser) return;
+  const { data } = await sb.from('profiles').select('plan').eq('id', currentUser.id).single();
+  if (data?.plan && data.plan !== 'free') {
+    closeCheckout();
+    localStorage.removeItem('checkoutIntent');
+    alert('🎉 Pro activated! Open the Abide app and sign in with this email to unlock everything.');
+    await showDashboard();
+  } else {
+    alert('Payment not confirmed yet. Please wait a moment and try again. If you just paid, it can take up to 60 seconds.');
+  }
+}
+
+function continueFree() {
+  if (currentUser) showDashboard();
+  else showScreen('authScreen');
+}
+
+// ── FAQ ──
+function toggleFaq(el) {
+  const ans = el.nextElementSibling;
+  const tog = el.querySelector('.faq-toggle');
+  ans.classList.toggle('open');
+  tog.classList.toggle('open');
+}
+
+// ── ENTER KEY ──
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('authScreen').classList.contains('active')) handleAuth();
+});
+
+init();
+</script>
+</body>
+</html>

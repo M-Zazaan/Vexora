@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vexora Studio — Apps That Matter</title>
+<meta name="description" content="Vexora Studio builds thoughtful mobile apps. Currently featuring Abide — Daily Prayer & Bible app.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f5f4f0;
+  --ink: #0f0f0f;
+  --muted: #888;
+  --accent: #ff4d00;
+  --border: rgba(0,0,0,0.1);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; cursor: none; }
+
+.cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.15s; }
+.cursor-ring { width: 36px; height: 36px; border: 1.5px solid var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: 0.5; transition: width 0.2s, height 0.2s; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; text-transform: uppercase; }
+.logo em { color: var(--accent); font-style: normal; }
+.nav-links { display: flex; gap: 2.5rem; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--ink); }
+
+/* HERO */
+.hero { min-height: 100vh; padding: 10rem 3rem 4rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+.hero-bg-text { position: absolute; bottom: -2rem; left: -1rem; font-family: 'Syne', sans-serif; font-size: clamp(10rem, 22vw, 20rem); font-weight: 800; color: transparent; -webkit-text-stroke: 1px rgba(0,0,0,0.06); line-height: 1; pointer-events: none; user-select: none; white-space: nowrap; }
+.hero-tag { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 0.6rem; margin-bottom: 2.5rem; }
+.hero-tag::before { content:''; width:24px; height:1.5px; background:var(--accent); }
+.hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(4rem, 10vw, 9rem); font-weight: 800; line-height: 0.92; letter-spacing: -0.04em; max-width: 900px; }
+.hero h1 .stroke { -webkit-text-stroke: 2px var(--ink); color: transparent; }
+.hero h1 .red { color: var(--accent); }
+.hero-footer { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 4rem; position: relative; z-index: 1; }
+.hero-desc { font-size: 1rem; color: var(--muted); line-height: 1.8; max-width: 360px; }
+.hero-scroll { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.75rem; }
+.hero-scroll::after { content: '↓'; font-size: 1rem; animation: bounce 1.5s ease infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
+
+/* MARQUEE */
+.marquee-wrap { background: var(--ink); padding: 1rem 0; overflow: hidden; }
+.marquee { display: flex; gap: 3rem; animation: marquee 25s linear infinite; white-space: nowrap; }
+.marquee span { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+.marquee .dot { color: var(--accent); }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ABOUT */
+.section { padding: 8rem 3rem; max-width: 1200px; margin: 0 auto; }
+.sec-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
+.sec-label::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; align-items: start; }
+.about-left h2 { font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 4vw, 3.8rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; }
+.about-left h2 em { color: var(--muted); font-style: italic; font-family: 'Space Grotesk', sans-serif; font-weight: 300; }
+.about-right { padding-top: 0.5rem; }
+.about-right p { font-size: 1rem; color: var(--muted); line-height: 1.9; margin-bottom: 1.5rem; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--border); }
+.stat-n { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; }
+.stat-l { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.25rem; }
+
+/* APPS */
+.apps-section { border-top: 1px solid var(--border); padding: 8rem 3rem; max-width: 1200px; margin: 0 auto; }
+.apps-top { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+.apps-top h2 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; }
+.apps-top p { font-size: 0.9rem; color: var(--muted); line-height: 1.8; padding-top: 0.5rem; }
+
+.app-card { display: grid; grid-template-columns: 80px 1fr auto; gap: 2.5rem; align-items: center; padding: 2.5rem 0; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; transition: padding-left 0.3s ease; }
+.app-card:hover { padding-left: 1.5rem; }
+.app-card:hover .arr { transform: translateX(8px); color: var(--accent); }
+.app-num { font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; }
+.app-body { display: flex; align-items: center; gap: 2rem; }
+.app-ico { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+.app-txt h3 { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.2rem; }
+.app-txt p { font-size: 0.82rem; color: var(--muted); }
+.app-right { display: flex; align-items: center; gap: 1.5rem; }
+.pill { font-size: 0.65rem; font-weight: 600; padding: 0.35rem 0.85rem; border-radius: 99px; letter-spacing: 0.06em; text-transform: uppercase; }
+.pill-live { background: var(--ink); color: var(--bg); }
+.pill-soon { border: 1px solid var(--border); color: var(--muted); }
+.arr { font-size: 1.4rem; color: var(--muted); transition: all 0.3s; }
+
+/* VALUES */
+.values { background: var(--ink); padding: 8rem 3rem; }
+.values-inner { max-width: 1200px; margin: 0 auto; }
+.values h2 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; color: white; letter-spacing: -0.03em; margin-bottom: 5rem; }
+.val-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3rem; }
+.val { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; }
+.val-n { font-size: 0.65rem; font-weight: 700; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1.5rem; }
+.val-t { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; color: white; margin-bottom: 0.75rem; }
+.val-d { font-size: 0.83rem; color: rgba(255,255,255,0.4); line-height: 1.85; }
+
+/* FOOTER */
+.footer-wrap { border-top: 1px solid var(--border); }
+footer { padding: 3rem; max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+.f-logo { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; }
+.f-logo em { color: var(--accent); font-style: normal; }
+.f-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+.f-links a { color: var(--muted); font-size: 0.78rem; text-decoration: none; transition: color 0.2s; letter-spacing: 0.04em; }
+.f-links a:hover { color: var(--ink); }
+.f-copy { color: var(--muted); font-size: 0.72rem; width: 100%; text-align: center; padding-top: 2rem; border-top: 1px solid var(--border); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.vis { opacity: 1; transform: none; }
+.reveal.d1 { transition-delay: 0.1s; }
+.reveal.d2 { transition-delay: 0.2s; }
+.reveal.d3 { transition-delay: 0.3s; }
+
+@media(max-width:860px) {
+  nav { padding: 1.25rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 7rem 1.5rem 3rem; }
+  .hero-bg-text { font-size: 8rem; }
+  .hero-footer { flex-direction: column; align-items: flex-start; gap: 2rem; }
+  .section, .apps-section { padding: 5rem 1.5rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .apps-top { grid-template-columns: 1fr; gap: 1.5rem; }
+  .app-card { grid-template-columns: 40px 1fr; }
+  .app-right { display: none; }
+  .val-grid { grid-template-columns: 1fr; }
+  .values { padding: 5rem 1.5rem; }
+  footer { padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav>
+  <a href="/" class="logo">Vexora <em>Studio</em></a>
+  <div class="nav-links">
+    <a href="#apps">Apps</a>
+    <a href="#about">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">VX</div>
+  <div>
+    <div class="hero-tag">Independent App Studio</div>
+    <h1>
+      We build<br>
+      <span class="stroke">apps</span> <span class="red">that</span><br>
+      <span class="stroke">matter.</span>
+    </h1>
+  </div>
+  <div class="hero-footer">
+    <p class="hero-desc">Thoughtful mobile apps designed to improve real people's lives — with care, craft, and intention.</p>
+    <div class="hero-scroll">Scroll to explore</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>Vexora Studio</span><span class="dot"> · </span>
+    <span>Abide App</span><span class="dot"> · </span>
+    <span>Daily Prayer</span><span class="dot"> · </span>
+    <span>Bible Reading</span><span class="dot"> · </span>
+    <span>Built with Purpose</span><span class="dot"> · </span>
+    <span>Android Apps</span><span class="dot"> · </span>
+    <span>Vexora Studio</span><span class="dot"> · </span>
+    <span>Abide App</span><span class="dot"> · </span>
+    <span>Daily Prayer</span><span class="dot"> · </span>
+    <span>Bible Reading</span><span class="dot"> · </span>
+    <span>Built with Purpose</span><span class="dot"> · </span>
+    <span>Android Apps</span><span class="dot"> · </span>
+    <span>Vexora Studio</span><span class="dot"> · </span>
+    <span>Abide App</span><span class="dot"> · </span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="section" id="about">
+  <div class="sec-label">01 — About us</div>
+  <div class="about-grid">
+    <div class="about-left reveal">
+      <h2>Small studio.<br><em>Big</em> intentions.</h2>
+    </div>
+    <div class="about-right reveal d1">
+      <p>Vexora Studio is an independent mobile app studio. We don't build apps to fill app stores — we build apps that solve real problems and improve people's everyday lives.</p>
+      <p>Every product we ship goes through the same filter: does this genuinely help someone? If not, we don't build it.</p>
+      <div class="stats">
+        <div><div class="stat-n">01</div><div class="stat-l">App launched</div></div>
+        <div><div class="stat-n">∞</div><div class="stat-l">More coming</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APPS -->
+<div class="apps-section" id="apps">
+  <div class="apps-top">
+    <h2 class="reveal">Our Apps</h2>
+    <p class="reveal d1">Each app is built around a single problem, solved with genuine care and precision.</p>
+  </div>
+
+  <a href="abide/index.html" class="app-card reveal">
+    <div class="app-num">01</div>
+    <div class="app-body">
+      <div class="app-ico" style="background:#0f0f0f;color:#c8a84b;font-size:1.6rem;">✝</div>
+      <div class="app-txt">
+        <h3>Abide</h3>
+        <p>Daily Prayer & Bible · Spiritual wellness app</p>
+      </div>
+    </div>
+    <div class="app-right">
+      <span class="pill pill-live">Live</span>
+      <span class="arr">→</span>
+    </div>
+  </a>
+
+  <div class="app-card reveal" style="pointer-events:none;opacity:0.35;">
+    <div class="app-num">02</div>
+    <div class="app-body">
+      <div class="app-ico" style="background:#e8e8e4;color:#888;font-size:1.2rem;">?</div>
+      <div class="app-txt">
+        <h3>Coming Soon</h3>
+        <p>Next app in development</p>
+      </div>
+    </div>
+    <div class="app-right">
+      <span class="pill pill-soon">In Dev</span>
+      <span class="arr">→</span>
+    </div>
+  </div>
+</div>
+
+<!-- VALUES -->
+<section class="values">
+  <div class="values-inner">
+    <h2 class="reveal">How we build</h2>
+    <div class="val-grid">
+      <div class="val reveal">
+        <div class="val-n">01</div>
+        <div class="val-t">Problem first</div>
+        <div class="val-d">We start with a real problem real people have. Never with a technology looking for a use case.</div>
+      </div>
+      <div class="val reveal d1">
+        <div class="val-n">02</div>
+        <div class="val-t">Relentlessly simple</div>
+        <div class="val-d">One app. One core problem. Solved exceptionally well. We resist the urge to add features nobody asked for.</div>
+      </div>
+      <div class="val reveal d2">
+        <div class="val-n">03</div>
+        <div class="val-t">Privacy by default</div>
+        <div class="val-d">We collect only what we need. We never sell your data. Your trust is the foundation of everything we build.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-wrap">
+  <footer>
+    <div class="f-logo">Vexora <em>Studio</em></div>
+    <div class="f-links">
+      <a href="abide/index.html">Abide</a>
+      <a href="abide/pricing/index.html">Pricing</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="refund.html">Refund Policy</a>
+    </div>
+    <div class="f-copy">© 2025 Vexora Studio. All rights reserved. · Built with purpose.</div>
+  </footer>
+</div>
+
+<script>
+// Cursor
+const cur = document.getElementById('cur'), ring = document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
+(function anim(){ rx+=(mx-rx)*0.1; ry+=(my-ry)*0.1; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';});
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
