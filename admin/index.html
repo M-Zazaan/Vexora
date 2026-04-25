@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Vexora Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#f5f4f0;--bg2:#eeedea;--ink:#0f0f0f;--mu:#888;--ac:#ff4d00;--bd:rgba(0,0,0,0.10);--wh:#fff;--gr:#1a6e3c;--rd:#c0392b;--fn:'Space Grotesk',sans-serif;--hd:'Syne',sans-serif;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--fn);background:var(--bg);color:var(--ink);display:flex;}
+
+/* LOGIN */
+#login{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;}
+.lbox{background:var(--wh);border:1px solid var(--bd);border-radius:20px;padding:2.5rem;width:400px;box-shadow:0 24px 64px rgba(0,0,0,0.12);}
+.llogo{font-family:var(--hd);font-size:1.1rem;font-weight:800;text-transform:uppercase;margin-bottom:0.3rem;}
+.llogo em{color:var(--ac);font-style:normal;}
+.lsub{font-size:0.8rem;color:var(--mu);margin-bottom:1.75rem;}
+.ibox{background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:0.8rem;font-size:0.72rem;color:#0369a1;margin-bottom:1.1rem;line-height:1.5;}
+.lerr{color:var(--rd);font-size:0.75rem;margin-top:0.75rem;padding:0.5rem 0.75rem;background:#fef2f2;border-radius:6px;border:1px solid rgba(192,57,43,0.2);display:none;}
+
+/* SIDEBAR */
+.sb{width:220px;flex-shrink:0;background:var(--ink);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;overflow-y:auto;}
+.sb-logo{padding:1.25rem;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sb-logo span{font-family:var(--hd);font-size:0.95rem;font-weight:800;color:#fff;text-transform:uppercase;}
+.sb-logo em{color:var(--ac);font-style:normal;}
+.sl{font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.25);padding:1rem 1.25rem 0.35rem;}
+.ni{display:flex;align-items:center;gap:0.6rem;padding:0.65rem 1.25rem;color:rgba(255,255,255,0.5);font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.15s;border-left:2px solid transparent;}
+.ni:hover{color:#fff;background:rgba(255,255,255,0.05);}
+.ni.on{color:#fff;border-left-color:var(--ac);background:rgba(255,77,0,0.1);}
+.ni .ic{width:16px;text-align:center;font-size:13px;flex-shrink:0;}
+.sb-foot{margin-top:auto;padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,0.08);}
+.urow{display:flex;align-items:center;gap:0.6rem;}
+.ava{width:28px;height:28px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.uinfo{font-size:0.7rem;color:rgba(255,255,255,0.45);}
+.uinfo strong{display:block;color:#fff;font-size:0.75rem;}
+.lout{background:none;border:none;color:rgba(255,255,255,0.3);font-size:0.68rem;cursor:pointer;margin-top:0.5rem;padding:0;font-family:var(--fn);}
+.lout:hover{color:var(--ac);}
+
+/* SHELL */
+.shell{margin-left:220px;flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+.tb{background:var(--wh);border-bottom:1px solid var(--bd);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.tb-t{font-family:var(--hd);font-size:0.95rem;font-weight:700;}
+.tb-r{display:flex;gap:0.5rem;}
+.cnt{flex:1;overflow-y:auto;padding:1.75rem;}
+.pg{display:none;}.pg.on{display:block;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:0.3rem;padding:0.4rem 0.9rem;border-radius:99px;font-size:0.72rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;border:none;font-family:var(--fn);transition:all 0.15s;}
+.bp{background:var(--ink);color:var(--bg);}.bp:hover{background:var(--ac);}
+.bg2{background:transparent;color:var(--mu);border:1px solid var(--bd);}.bg2:hover{color:var(--ink);border-color:rgba(0,0,0,0.25);}
+.bd2{background:#fef2f2;color:var(--rd);border:1px solid rgba(192,57,43,0.2);}.bd2:hover{background:var(--rd);color:#fff;}
+.btn:disabled{opacity:0.5;cursor:not-allowed;}
+
+/* BADGES */
+.bge{display:inline-block;font-size:0.6rem;font-weight:700;padding:0.18rem 0.55rem;border-radius:4px;text-transform:uppercase;letter-spacing:0.06em;}
+.bgn{background:rgba(26,110,60,0.1);color:var(--gr);}
+.bgo{background:rgba(255,77,0,0.1);color:var(--ac);}
+.bgg{background:rgba(0,0,0,0.06);color:var(--mu);}
+.bgb{background:rgba(37,99,235,0.1);color:#2563eb;}
+
+/* FORMS */
+.fi{font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--mu);margin-bottom:0.3rem;}
+.fin{width:100%;padding:0.6rem 0.8rem;border:1.5px solid var(--bd);border-radius:6px;font-family:var(--fn);font-size:0.82rem;color:var(--ink);background:var(--wh);outline:none;transition:border-color 0.15s;}
+.fin:focus{border-color:var(--ac);}
+.fta{width:100%;padding:0.7rem 0.8rem;border:1.5px solid var(--bd);border-radius:6px;font-family:'Courier New',monospace;font-size:0.74rem;color:var(--ink);background:#fafafa;resize:vertical;outline:none;min-height:180px;line-height:1.6;}
+.fta:focus{border-color:var(--ac);}
+.fsl{width:100%;padding:0.6rem 0.8rem;border:1.5px solid var(--bd);border-radius:6px;font-family:var(--fn);font-size:0.82rem;color:var(--ink);background:var(--wh);outline:none;}
+.fr{margin-bottom:0.85rem;}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+
+/* STATS */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.75rem;}
+.sc{background:var(--wh);border:1px solid var(--bd);border-radius:12px;padding:1.25rem;}
+.sc .n{font-family:var(--hd);font-size:2rem;font-weight:800;letter-spacing:-0.04em;line-height:1;}
+.sc .l{font-size:0.67rem;color:var(--mu);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.2rem;}
+.sc .t{font-size:0.68rem;font-weight:600;margin-top:0.6rem;}
+.sc .t.up{color:var(--gr);}.sc .t.dn{color:var(--rd);}
+
+/* TABLE */
+.tw{background:var(--wh);border:1px solid var(--bd);border-radius:12px;overflow:hidden;}
+table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+th{font-size:0.63rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--mu);padding:0.65rem 1rem;border-bottom:1px solid var(--bd);text-align:left;background:var(--bg);}
+td{padding:0.85rem 1rem;border-bottom:1px solid var(--bd);color:var(--ink);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#faf9f6;}
+.tr-click{cursor:pointer;}
+
+/* CARD */
+.card{background:var(--wh);border:1px solid var(--bd);border-radius:12px;padding:1.25rem;}
+.card h3{font-family:var(--hd);font-size:0.9rem;font-weight:700;margin-bottom:1rem;}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1.25rem;}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.sh h2{font-family:var(--hd);font-size:0.95rem;font-weight:700;}
+
+/* BARS */
+.br{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;font-size:0.73rem;}
+.bl{width:76px;color:var(--mu);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bt{flex:1;height:5px;background:var(--bg2);border-radius:99px;overflow:hidden;}
+.bf{height:100%;background:var(--ac);border-radius:99px;transition:width 0.6s ease;}
+.bv{width:34px;text-align:right;font-weight:600;}
+
+/* PAGE EDITOR */
+.el{display:grid;grid-template-columns:240px 1fr;gap:1.25rem;}
+.pl{background:var(--wh);border:1px solid var(--bd);border-radius:12px;overflow:hidden;}
+.plh{padding:0.8rem 1rem;border-bottom:1px solid var(--bd);font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--mu);display:flex;justify-content:space-between;align-items:center;}
+.pi{padding:0.7rem 1rem;border-bottom:1px solid var(--bd);cursor:pointer;transition:background 0.15s;display:flex;justify-content:space-between;align-items:center;}
+.pi:last-child{border-bottom:none;}
+.pi:hover{background:var(--bg);}
+.pi.on{background:rgba(255,77,0,0.05);border-left:2px solid var(--ac);}
+.pin{font-size:0.8rem;font-weight:500;}
+.pip{font-size:0.65rem;color:var(--mu);}
+.ep{background:var(--wh);border:1px solid var(--bd);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;}
+.etb{padding:0.7rem 1rem;border-bottom:1px solid var(--bd);background:var(--bg);display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;}
+.efc{padding:1rem;overflow-y:auto;}
+
+/* APPS */
+.ag{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+.ac2{background:var(--wh);border:1px solid var(--bd);border-radius:12px;padding:1.25rem;position:relative;}
+.ac2-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:0.85rem;}
+.ac2 h3{font-family:var(--hd);font-size:0.95rem;font-weight:700;margin-bottom:0.2rem;}
+.ac2 p{font-size:0.73rem;color:var(--mu);margin-bottom:0.85rem;line-height:1.5;}
+.ac2-st{position:absolute;top:1rem;right:1rem;}
+.ac2-act{display:flex;gap:0.4rem;flex-wrap:wrap;}
+
+/* CHANGELOG */
+.cli{padding:1.1rem 0;border-bottom:1px solid var(--bd);}
+.cli:last-child{border-bottom:none;}
+
+/* SETTINGS TOGGLE */
+.sr{display:flex;justify-content:space-between;align-items:center;padding:0.9rem 0;border-bottom:1px solid var(--bd);}
+.sr:last-child{border-bottom:none;}
+.tog{width:34px;height:18px;border-radius:99px;background:var(--bg2);border:1px solid var(--bd);cursor:pointer;position:relative;transition:background 0.2s;flex-shrink:0;}
+.tog.on{background:var(--gr);}
+.tog::after{content:'';width:12px;height:12px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.tog.on::after{transform:translateX(16px);}
+
+/* MODAL */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:998;}
+.mo{background:var(--wh);border-radius:16px;padding:1.75rem;width:560px;max-width:90vw;max-height:85vh;overflow-y:auto;position:relative;z-index:999;}
+.mo h2{font-family:var(--hd);font-size:1.1rem;font-weight:700;margin-bottom:1.25rem;}
+.mo-close{position:absolute;top:1.25rem;right:1.25rem;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--mu);line-height:1;}
+.msg-box{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:1rem;font-size:0.85rem;line-height:1.75;color:var(--ink);white-space:pre-wrap;word-break:break-word;}
+
+/* SPINNER */
+.spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:sp 0.7s linear infinite;margin-right:4px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:3rem;color:var(--mu);font-size:0.82rem;}
+.empty .icon{font-size:1.5rem;margin-bottom:0.5rem;}
+
+/* TOAST */
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--ink);color:var(--bg);padding:0.7rem 1.25rem;border-radius:8px;font-size:0.78rem;font-weight:500;z-index:9999;transform:translateY(60px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:340px;}
+#toast.show{transform:translateY(0);opacity:1;}
+#toast.s{background:var(--gr);}
+#toast.e{background:var(--rd);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login" style="display:none;">
+  <div class="lbox">
+    <div class="llogo">Vexora <em>Admin</em></div>
+    <div class="lsub">Sign in with your Supabase account</div>
+    <div class="ibox">
+      1. Paste your creds into <code>js/supabase.js</code><br>
+      2. Create a user: Supabase → Authentication → Users → Add User<br>
+      3. Sign in below with that email + password
+    </div>
+    <div class="fr"><div class="fi">Email</div><input class="fin" type="email" id="le" placeholder="admin@vexorastudio.com" autocomplete="email"></div>
+    <div class="fr"><div class="fi">Password</div><input class="fin" type="password" id="lp" placeholder="••••••••" autocomplete="current-password"></div>
+    <button class="btn bp" style="width:100%;justify-content:center;padding:0.65rem;margin-top:0.25rem;" id="lbtn" onclick="doLogin()">Sign In →</button>
+    <div class="lerr" id="lerr"></div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sb" id="sidebar" style="display:none;">
+  <div class="sb-logo"><span>Vexora <em>·</em> Admin</span></div>
+  <div class="sl">Overview</div>
+  <div class="ni on" data-sec="dashboard" onclick="nav('dashboard',this)"><span class="ic">▦</span> Dashboard</div>
+  <div class="sl">Content</div>
+  <div class="ni" data-sec="pages"     onclick="nav('pages',this)"><span class="ic">☰</span> Pages</div>
+  <div class="ni" data-sec="apps"      onclick="nav('apps',this)"><span class="ic">◈</span> Apps</div>
+  <div class="ni" data-sec="changelog" onclick="nav('changelog',this)"><span class="ic">◎</span> Changelog</div>
+  <div class="sl">Inbox</div>
+  <div class="ni" data-sec="contacts"  onclick="nav('contacts',this)"><span class="ic">✉</span> Contacts <span id="contact-badge" style="display:none;background:var(--ac);color:#fff;font-size:0.55rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:99px;margin-left:auto;"></span></div>
+  <div class="ni" data-sec="newsletter" onclick="nav('newsletter',this)"><span class="ic">◉</span> Newsletter</div>
+  <div class="sl">System</div>
+  <div class="ni" data-sec="analytics" onclick="nav('analytics',this)"><span class="ic">↗</span> Analytics</div>
+  <div class="ni" data-sec="settings"  onclick="nav('settings',this)"><span class="ic">⚙</span> Settings</div>
+  <div class="sb-foot">
+    <div class="urow">
+      <div class="ava" id="uava">VS</div>
+      <div class="uinfo"><strong id="uname">Admin</strong><span id="uemail"></span></div>
+    </div>
+    <button class="lout" onclick="doLogout()">← Sign out</button>
+  </div>
+</div>
+
+<!-- SHELL -->
+<div class="shell" id="shell" style="display:none;">
+  <div class="tb">
+    <div class="tb-t" id="tbt">Dashboard</div>
+    <div class="tb-r">
+      <button class="btn bg2" onclick="window.open('../index.html')">↗ View Site</button>
+      <button class="btn bp" id="tba" onclick="tbAct()">+ New Page</button>
+    </div>
+  </div>
+
+  <div class="cnt">
+
+    <!-- DASHBOARD -->
+    <div class="pg on" id="pg-dashboard">
+      <div class="sg">
+        <div class="sc"><div class="n" id="s-apps">–</div><div class="l">Apps Live</div><div class="t up" id="s-apps-t">–</div></div>
+        <div class="sc"><div class="n" id="s-pages">–</div><div class="l">Pages</div><div class="t up" id="s-pages-t">–</div></div>
+        <div class="sc"><div class="n" id="s-views">–</div><div class="l">Total Views</div><div class="t up">All time</div></div>
+        <div class="sc"><div class="n" id="s-contacts">–</div><div class="l">Contacts</div><div class="t up">All time</div></div>
+      </div>
+      <div class="sh"><h2>Recent Pages</h2><button class="btn bg2" onclick="nav('pages',document.querySelector('[data-sec=pages]'))">All →</button></div>
+      <div class="tw" style="margin-bottom:1.5rem;"><table><thead><tr><th>Title</th><th>Path</th><th>Status</th><th>Views</th></tr></thead><tbody id="db-pt"></tbody></table></div>
+      <div class="tc">
+        <div class="card"><h3>Top Pages by Views</h3><div id="db-bars"><div class="empty">Loading…</div></div></div>
+        <div class="card"><h3>Recent Contacts</h3><div id="db-contacts-preview"></div></div>
+      </div>
+    </div>
+
+    <!-- PAGES -->
+    <div class="pg" id="pg-pages">
+      <div class="el">
+        <div>
+          <div class="pl">
+            <div class="plh"><span>All Pages</span><button class="btn bp" style="font-size:0.6rem;padding:0.22rem 0.55rem;" onclick="newPage()">+</button></div>
+            <div id="pl-items"><div class="empty">Loading…</div></div>
+          </div>
+        </div>
+        <div class="ep">
+          <div class="etb" id="etb"><span style="font-size:0.7rem;color:var(--mu);font-weight:600;">SELECT A PAGE TO EDIT</span></div>
+          <div class="efc" id="efc" style="display:none;">
+            <div class="fr"><div class="fi">Page Title</div><input class="fin" id="et"></div>
+            <div class="fr"><div class="fi">URL Path</div><input class="fin" id="ep2" placeholder="/about"></div>
+            <div class="fr"><div class="fi">Meta Description</div><input class="fin" id="em"></div>
+            <div class="fr"><div class="fi">HTML Body Content</div><textarea class="fta" id="eh" rows="14"></textarea></div>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;">
+              <button class="btn bp" onclick="savePage()">Save</button>
+              <button class="btn bg2" onclick="previewPage()">Preview ↗</button>
+              <button class="btn bd2" onclick="delPage()">Delete</button>
+              <div style="margin-left:auto;display:flex;align-items:center;gap:0.5rem;">
+                <span style="font-size:0.7rem;color:var(--mu);">Status:</span>
+                <select class="fsl" id="est" style="width:auto;padding:0.3rem 0.6rem;font-size:0.75rem;"><option>published</option><option>draft</option></select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPS -->
+    <div class="pg" id="pg-apps">
+      <div style="margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;">
+        <p style="font-size:0.8rem;color:var(--mu);">Each app auto-appears on the public Apps page.</p>
+        <button class="btn bp" onclick="showAddApp()">+ Add App</button>
+      </div>
+      <div id="apps-g"><div class="empty"><div class="icon">◈</div>Loading apps…</div></div>
+    </div>
+
+    <!-- CHANGELOG -->
+    <div class="pg" id="pg-changelog">
+      <div class="sh"><h2>Changelog Entries</h2><button class="btn bp" onclick="showAddCL()">+ New Entry</button></div>
+      <div class="tw"><div style="padding:1rem;" id="cl-list"><div class="empty">Loading…</div></div></div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="pg" id="pg-contacts">
+      <div class="sh">
+        <h2>Contact Submissions</h2>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <input class="fin" type="search" id="contact-search" placeholder="Search…" style="width:200px;padding:0.4rem 0.7rem;font-size:0.78rem;" oninput="filterContacts(this.value)">
+        </div>
+      </div>
+      <div class="tw"><table>
+        <thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Date</th><th></th></tr></thead>
+        <tbody id="contacts-tbody"><tr><td colspan="5" style="text-align:center;color:var(--mu);padding:2rem;">Loading…</td></tr></tbody>
+      </table></div>
+    </div>
+
+    <!-- NEWSLETTER -->
+    <div class="pg" id="pg-newsletter">
+      <div class="sh">
+        <h2>Newsletter Signups</h2>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="btn bg2" onclick="exportNewsletter()">Export CSV</button>
+        </div>
+      </div>
+      <div class="sg" style="grid-template-columns:repeat(3,1fr);">
+        <div class="sc"><div class="n" id="nl-total">–</div><div class="l">Total Signups</div></div>
+        <div class="sc"><div class="n" id="nl-today">–</div><div class="l">Today</div></div>
+        <div class="sc"><div class="n" id="nl-week">–</div><div class="l">This Week</div></div>
+      </div>
+      <div class="tw"><table>
+        <thead><tr><th>Email</th><th>Source</th><th>Date</th><th></th></tr></thead>
+        <tbody id="nl-tbody"><tr><td colspan="4" style="text-align:center;color:var(--mu);padding:2rem;">Loading…</td></tr></tbody>
+      </table></div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="pg" id="pg-analytics">
+      <div class="sg">
+        <div class="sc"><div class="n" id="av">–</div><div class="l">Total Views</div></div>
+        <div class="sc"><div class="n" id="aup">–</div><div class="l">Unique Paths</div></div>
+        <div class="sc"><div class="n" id="atd">–</div><div class="l">Today</div></div>
+        <div class="sc"><div class="n" id="a7d">–</div><div class="l">Last 7 Days</div></div>
+      </div>
+      <div class="tc">
+        <div class="card"><h3>Top Pages</h3><div id="a-bars"><div class="empty">Loading…</div></div></div>
+        <div class="card"><h3>Recent Views</h3><div id="a-recent"><div class="empty">Loading…</div></div></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="pg" id="pg-settings">
+      <div class="tc">
+        <div class="card">
+          <h3>Supabase Credentials</h3>
+          <div class="ibox">Edit <code>js/supabase.js</code> directly to update credentials. These fields are for reference only.</div>
+          <div class="fr"><div class="fi">Project URL</div><input class="fin" placeholder="https://xxx.supabase.co" id="sb-url"></div>
+          <div class="fr"><div class="fi">Anon Key</div><input class="fin" placeholder="eyJ…" type="password" id="sb-key"></div>
+          <button class="btn bg2" onclick="toast('Edit js/supabase.js directly with your credentials.','e')">How to update</button>
+        </div>
+        <div class="card">
+          <h3>Feature Toggles</h3>
+          <div class="sr"><div><div style="font-size:0.83rem;font-weight:500;">Maintenance Mode</div><div style="font-size:0.7rem;color:var(--mu);">Redirect all visitors</div></div><div class="tog" onclick="this.classList.toggle('on')"></div></div>
+          <div class="sr"><div><div style="font-size:0.83rem;font-weight:500;">AI Father (Abide)</div><div style="font-size:0.7rem;color:var(--mu);">Groq-powered AI companion</div></div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="sr"><div><div style="font-size:0.83rem;font-weight:500;">Analytics Tracking</div><div style="font-size:0.7rem;color:var(--mu);">Collect pageviews via Supabase</div></div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="sr"><div><div style="font-size:0.83rem;font-weight:500;">Newsletter Signup</div><div style="font-size:0.7rem;color:var(--mu);">Homepage email capture</div></div><div class="tog" onclick="this.classList.toggle('on')"></div></div>
+        </div>
+      </div>
+      <!-- FULL SQL SCHEMA -->
+      <div class="card" style="margin-top:1.25rem;">
+        <h3>Complete Database Schema — Run this in Supabase SQL Editor</h3>
+        <p style="font-size:0.75rem;color:var(--mu);margin-bottom:0.85rem;line-height:1.6;">Copy everything below → Supabase → SQL Editor → New Query → Paste → Run</p>
+        <pre id="sql-schema" style="background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:1rem;font-size:0.69rem;overflow-x:auto;line-height:1.8;white-space:pre;max-height:400px;overflow-y:auto;"></pre>
+        <button class="btn bg2" style="margin-top:0.75rem;" onclick="copySQL()">Copy SQL</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="mw"></div>
+<div id="toast"></div>
+
+<script src="../js/supabase.js"></script>
+<script>
+// ── STATE ────────────────────────────────────────────────────
+var PAGES=[], APPS=[], CL=[], CONTACTS=[], NEWSLETTER=[], PAGEVIEWS=[];
+var activePage=null, curSec='dashboard';
+var tbMap={dashboard:'+ New Page',pages:'+ New Page',apps:'+ Add App',changelog:'+ New Entry',contacts:'Export CSV',newsletter:'Export CSV',analytics:'Refresh',settings:'Save'};
+
+var SQL = `-- ============================================================
+-- VEXORA STUDIO — COMPLETE DATABASE SCHEMA
+-- Run this once in Supabase SQL Editor
+-- ============================================================
+
+-- Drop existing tables (clean slate)
+drop table if exists newsletter_signups cascade;
+drop table if exists contact_submissions cascade;
+drop table if exists pageviews cascade;
+drop table if exists changelog cascade;
+drop table if exists pages cascade;
+drop table if exists apps cascade;
+drop table if exists settings cascade;
+
+-- Apps
+create table apps (
+  id          bigint primary key generated always as identity,
+  name        text not null,
+  tagline     text,
+  description text,
+  status      text default 'dev' check (status in ('live','dev','hidden')),
+  color       text default '#0f0f0f',
+  text_color  text default '#ffffff',
+  icon        text,
+  url         text,
+  tags        text,
+  sort_order  int default 0,
+  created_at  timestamptz default now()
+);
+
+-- Pages
+create table pages (
+  id          bigint primary key generated always as identity,
+  title       text not null,
+  path        text not null unique,
+  meta        text,
+  html        text,
+  status      text default 'draft' check (status in ('published','draft')),
+  modified_at timestamptz default now(),
+  created_at  timestamptz default now()
+);
+
+-- Changelog
+create table changelog (
+  id          bigint primary key generated always as identity,
+  version     text not null,
+  headline    text,
+  summary     text,
+  items       jsonb,
+  tags        text,
+  app         text default 'Abide',
+  released_at date default now()
+);
+
+-- Page views
+create table pageviews (
+  id         bigint primary key generated always as identity,
+  path       text not null,
+  referrer   text,
+  ua         text,
+  created_at timestamptz default now()
+);
+
+-- Contact form submissions
+create table contact_submissions (
+  id         bigint primary key generated always as identity,
+  first_name text,
+  last_name  text,
+  email      text not null,
+  subject    text,
+  message    text,
+  read       boolean default false,
+  created_at timestamptz default now()
+);
+
+-- Newsletter signups
+create table newsletter_signups (
+  id         bigint primary key generated always as identity,
+  email      text not null unique,
+  source     text default 'homepage',
+  created_at timestamptz default now()
+);
+
+-- Site settings key-value store
+create table settings (
+  key        text primary key,
+  value      text,
+  updated_at timestamptz default now()
+);
+
+-- ── ROW LEVEL SECURITY ──────────────────────────────────────
+alter table apps               enable row level security;
+alter table pages              enable row level security;
+alter table changelog          enable row level security;
+alter table pageviews          enable row level security;
+alter table contact_submissions enable row level security;
+alter table newsletter_signups enable row level security;
+alter table settings           enable row level security;
+
+-- Public can read apps, pages, changelog
+create policy "pub_read_apps"      on apps      for select using (true);
+create policy "pub_read_pages"     on pages     for select using (true);
+create policy "pub_read_changelog" on changelog for select using (true);
+
+-- Public can insert pageviews, contacts, newsletter
+create policy "pub_insert_pv"       on pageviews          for insert with check (true);
+create policy "pub_insert_contact"  on contact_submissions for insert with check (true);
+create policy "pub_insert_nl"       on newsletter_signups  for insert with check (true);
+
+-- Authenticated (admin) gets full access to everything
+create policy "auth_all_apps"      on apps               for all using (auth.role()='authenticated');
+create policy "auth_all_pages"     on pages              for all using (auth.role()='authenticated');
+create policy "auth_all_cl"        on changelog          for all using (auth.role()='authenticated');
+create policy "auth_all_pv"        on pageviews          for all using (auth.role()='authenticated');
+create policy "auth_all_contacts"  on contact_submissions for all using (auth.role()='authenticated');
+create policy "auth_all_nl"        on newsletter_signups  for all using (auth.role()='authenticated');
+create policy "auth_all_settings"  on settings           for all using (auth.role()='authenticated');
+
+-- ── SEED DATA ───────────────────────────────────────────────
+insert into apps (name,tagline,description,status,color,text_color,icon,url,sort_order)
+values ('Abide','Daily Prayer & Bible',
+  'Spiritual wellness app for daily prayer, Bible reading, and personal reflection with AI companion.',
+  'live','#0f0f0f','#c8a84b','✝','/apps/abide/index.html',1);`;
+
+document.getElementById('sql-schema').textContent = SQL;
+
+function copySQL(){
+  navigator.clipboard.writeText(SQL).then(function(){ toast('SQL copied to clipboard','s'); });
+}
+
+// ── LOGIN ────────────────────────────────────────────────────
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&document.getElementById('login').style.display!=='none') doLogin();
+});
+
+async function doLogin(){
+  var email=document.getElementById('le').value.trim();
+  var pw=document.getElementById('lp').value;
+  var btn=document.getElementById('lbtn');
+  var err=document.getElementById('lerr');
+  if(!email||!pw){showErr('Please enter your email and password.');return;}
+  btn.innerHTML='<span class="spin"></span> Signing in…';
+  btn.disabled=true; err.style.display='none';
+  try {
+    // signInWithPassword — correct Supabase v2 REST method
+    var data = await sb.auth.signInWithPassword(email, pw);
+    showAdmin(data.user);
+  } catch(e) {
+    showErr(e.message || 'Login failed. Check your email and password.');
+    btn.textContent='Sign In →'; btn.disabled=false;
+  }
+}
+
+function showErr(msg){var e=document.getElementById('lerr');e.textContent=msg;e.style.display='block';}
+
+function showAdmin(user){
+  document.getElementById('login').style.display='none';
+  document.getElementById('sidebar').style.display='flex';
+  document.getElementById('shell').style.display='flex';
+  var email=user.email||'';
+  var name=email.split('@')[0];
+  document.getElementById('uname').textContent=name;
+  document.getElementById('uemail').textContent=email;
+  document.getElementById('uava').textContent=name.substring(0,2).toUpperCase();
+  loadAll();
+}
+
+async function doLogout(){await sb.auth.signOut();location.reload();}
+
+// restore session on page load
+window.addEventListener('load', async function(){
+  // clear any broken/expired token first
+  var token = localStorage.getItem('vx_token');
+  if(token){
+    try {
+      // verify token is still valid by hitting the user endpoint
+      var r = await fetch(SUPABASE_URL + '/auth/v1/user', {
+        headers:{ 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + token }
+      });
+      if(r.ok){
+        var u = sb.auth.getUser();
+        if(u){ showAdmin(u); return; }
+      } else {
+        // token expired — clear it and show login
+        localStorage.removeItem('vx_token');
+        localStorage.removeItem('vx_refresh');
+        localStorage.removeItem('vx_user');
+      }
+    } catch(e){
+      localStorage.removeItem('vx_token');
+      localStorage.removeItem('vx_refresh');
+      localStorage.removeItem('vx_user');
+    }
+  }
+  // show login screen
+  document.getElementById('login').style.display='flex';
+});
+
+// ── NAV ──────────────────────────────────────────────────────
+function nav(sec,el){
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
+  if(el)el.classList.add('on');
+  document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});
+  document.getElementById('pg-'+sec).classList.add('on');
+  document.getElementById('tbt').textContent=el?el.textContent.trim():sec;
+  document.getElementById('tba').textContent=tbMap[sec]||'+ New';
+  curSec=sec;
+  var loaders={pages:loadPages,apps:loadApps,changelog:loadCL,contacts:loadContacts,newsletter:loadNewsletter,analytics:loadAnalytics};
+  if(loaders[sec])loaders[sec]();
+}
+
+function tbAct(){
+  var m={apps:showAddApp,changelog:showAddCL,contacts:function(){exportData(CONTACTS,'contacts');},newsletter:exportNewsletter};
+  (m[curSec]||newPage)();
+}
+
+// ── LOAD ALL (dashboard) ─────────────────────────────────────
+async function loadAll(){
+  try {
+    var results = await Promise.all([
+      sb.select('apps','select=id,name,status'),
+      sb.select('pages','select=id,title,path,status'),
+      sb.select('pageviews','select=path,created_at'),
+      sb.select('contact_submissions','select=id,first_name,last_name,email,subject,created_at,read&order=created_at.desc&limit=5'),
+    ]);
+    APPS=results[0]||[]; PAGEVIEWS=results[1]||[];
+    var views=results[2]||[]; CONTACTS=results[3]||[];
+
+    document.getElementById('s-apps').textContent=APPS.filter(function(a){return a.status==='live';}).length;
+    document.getElementById('s-pages').textContent=PAGEVIEWS.length;
+    document.getElementById('s-views').textContent=views.length;
+    document.getElementById('s-contacts').textContent=CONTACTS.length;
+
+    // unread badge
+    var unread=CONTACTS.filter(function(c){return !c.read;}).length;
+    var badge=document.getElementById('contact-badge');
+    if(unread>0){badge.textContent=unread;badge.style.display='inline';}
+
+    // page views map
+    var vm={};views.forEach(function(v){vm[v.path]=(vm[v.path]||0)+1;});
+    // pages table
+    document.getElementById('db-pt').innerHTML=(PAGEVIEWS.length?PAGEVIEWS:results[1]||[]).slice(0,6).map(function(p){
+      return '<tr><td><strong>'+(p.title||p.path)+'</strong></td><td style="color:var(--mu);font-size:0.75rem;">'+(p.path||'')+'</td><td><span class="bge '+(p.status==='published'?'bgn':'bgg')+'">'+(p.status||'–')+'</span></td><td style="font-weight:600;">'+(vm[p.path]||0)+'</td></tr>';
+    }).join('')||'<tr><td colspan="4" style="color:var(--mu);text-align:center;">No pages yet</td></tr>';
+
+    // bars
+    var pks=Object.keys(vm).sort(function(a,b){return vm[b]-vm[a];}).slice(0,6);
+    var mx=pks.length?vm[pks[0]]:1;
+    document.getElementById('db-bars').innerHTML=pks.length
+      ?pks.map(function(p){return '<div class="br"><div class="bl">'+p+'</div><div class="bt"><div class="bf" style="width:'+Math.round(vm[p]/mx*100)+'%"></div></div><div class="bv">'+vm[p]+'</div></div>';}).join('')
+      :'<div class="empty">No pageviews yet</div>';
+
+    // contacts preview
+    document.getElementById('db-contacts-preview').innerHTML=CONTACTS.length
+      ?CONTACTS.slice(0,4).map(function(c){
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--bd);">'
+          +'<div><div style="font-size:0.8rem;font-weight:600;">'+(c.first_name||'')+' '+(c.last_name||'')+'</div>'
+          +'<div style="font-size:0.72rem;color:var(--mu);">'+(c.subject||'General')+'</div></div>'
+          +'<span class="bge '+(c.read?'bgg':'bgo')+'">'+(c.read?'Read':'New')+'</span>'
+          +'</div>';}).join('')
+      :'<div class="empty">No contacts yet</div>';
+
+  } catch(e){
+    console.error('Dashboard error:',e);
+    toast('Dashboard load failed: '+(e.message||JSON.stringify(e)),'e');
+  }
+}
+
+// ── PAGES ────────────────────────────────────────────────────
+async function loadPages(){
+  document.getElementById('pl-items').innerHTML='<div class="empty">Loading…</div>';
+  try{var d=await sb.select('pages','order=created_at.asc');PAGES=d||[];}
+  catch(e){toast('Pages load failed','e');}
+  renderPagesList();
+}
+
+function renderPagesList(){
+  document.getElementById('pl-items').innerHTML=PAGES.length
+    ?PAGES.map(function(p){
+      return '<div class="pi '+(activePage&&activePage.id===p.id?'on':'')+'" onclick="editPage('+p.id+')">'
+        +'<div><div class="pin">'+p.title+'</div><div class="pip">'+p.path+'</div></div>'
+        +'<span class="bge '+(p.status==='published'?'bgn':'bgg')+'">'+(p.status==='published'?'Live':'Draft')+'</span>'
+        +'</div>';}).join('')
+    :'<div class="empty">No pages yet</div>';
+}
+
+function editPage(id){
+  activePage=PAGES.find(function(p){return p.id===id;});if(!activePage)return;
+  // pages loaded from DB have a real numeric id — mark them as saved
+  if(!activePage.hasOwnProperty('_saved')){
+    activePage._saved=true;
+    activePage._dbid=activePage.id;
+  }
+  document.getElementById('et').value=activePage.title||'';
+  document.getElementById('ep2').value=activePage.path||'';
+  document.getElementById('em').value=activePage.meta||'';
+  document.getElementById('eh').value=activePage.html||'';
+  document.getElementById('est').value=activePage.status||'draft';
+  document.getElementById('efc').style.display='block';
+  document.getElementById('etb').innerHTML='<strong style="font-size:0.78rem;">'+activePage.title+'</strong>'
+    +'<span style="font-size:0.65rem;color:var(--mu);">'+activePage.path+'</span>'
+    +'<span class="bge '+(activePage.status==='published'?'bgn':'bgg')+'" style="margin-left:auto;">'+activePage.status+'</span>';
+  renderPagesList();
+}
+
+async function savePage(){
+  if(!activePage)return;
+  var d={
+    title:       document.getElementById('et').value,
+    path:        document.getElementById('ep2').value,
+    meta:        document.getElementById('em').value,
+    html:        document.getElementById('eh').value,
+    status:      document.getElementById('est').value,
+    modified_at: new Date().toISOString()
+  };
+  try{
+    if(activePage._saved && activePage._dbid){
+      // existing DB record — UPDATE
+      await sb.update('pages',{id:activePage._dbid},d);
+      Object.assign(activePage,d);
+      toast('Page updated','s');
+    } else {
+      // brand new page — INSERT
+      var r=await sb.insert('pages',d);
+      if(r&&r[0]){
+        PAGES=PAGES.filter(function(p){return p.id!==activePage.id;});
+        activePage=r[0];
+        activePage._saved=true;
+        activePage._dbid=r[0].id;
+        PAGES.push(activePage);
+      }
+      toast('Page saved','s');
+    }
+    renderPagesList();
+  }catch(e){
+    console.error('savePage error:',e);
+    toast('Save failed: '+(e.message||e.hint||JSON.stringify(e)),'e');
+  }
+}
+
+async function delPage(){
+  if(!activePage||!confirm('Delete "'+activePage.title+'"?'))return;
+  try{
+    if(activePage._saved)await sb.delete('pages',{id:activePage.id});
+    PAGES=PAGES.filter(function(p){return p.id!==activePage.id;});
+    activePage=null;
+    document.getElementById('efc').style.display='none';
+    document.getElementById('etb').innerHTML='<span style="font-size:0.7rem;color:var(--mu);font-weight:600;">SELECT A PAGE TO EDIT</span>';
+    renderPagesList();toast('Deleted');
+  }catch(e){toast('Delete failed','e');}
+}
+
+function previewPage(){if(activePage)window.open('..'+activePage.path,'_blank');}
+
+function newPage(){
+  var tmp={
+    id:Date.now(),title:'New Page',path:'/new-page',status:'draft',
+    meta:'',html:'<main>\n  <h1>New Page</h1>\n  <p>Edit this content.</p>\n</main>',
+    _saved:false,_dbid:null
+  };
+  PAGES.push(tmp);
+  if(curSec!=='pages'){
+    nav('pages',document.querySelector('[data-sec=pages]'));
+    setTimeout(function(){renderPagesList();editPage(tmp.id);},80);
+  } else {
+    renderPagesList();
+    editPage(tmp.id);
+  }
+  toast('New page ready — fill in details and click Save');
+}
+
+// ── APPS ─────────────────────────────────────────────────────
+async function loadApps(){
+  document.getElementById('apps-g').innerHTML='<div class="empty"><div class="icon">◈</div>Loading…</div>';
+  try{var d=await sb.select('apps','order=sort_order.asc');APPS=d||[];}
+  catch(e){APPS=[];toast('Apps load failed','e');}
+  renderApps();
+}
+
+function renderApps(){
+  if(!APPS.length){
+    document.getElementById('apps-g').className='';
+    document.getElementById('apps-g').innerHTML='<div class="empty"><div class="icon">◈</div>No apps yet. Click + Add App.</div>';
+    return;
+  }
+  document.getElementById('apps-g').className='ag';
+  document.getElementById('apps-g').innerHTML=APPS.map(function(a){
+    // build icon html — logo image if set, else emoji fallback
+    var iconHtml;
+    if(a.logo_url){
+      iconHtml='<img src="'+a.logo_url+'" style="width:46px;height:46px;border-radius:12px;object-fit:cover;border:1px solid var(--bd);">';
+    } else {
+      iconHtml='<div style="width:46px;height:46px;border-radius:12px;background:'+(a.color||'#0f0f0f')+';color:'+(a.text_color||'#fff')+';display:flex;align-items:center;justify-content:center;font-size:1.3rem;">'+(a.icon||'★')+'</div>';
+    }
+    var storeLink = a.store_url
+      ? '<a href="'+a.store_url+'" target="_blank" style="font-size:0.7rem;color:var(--ac);display:block;margin-bottom:0.75rem;">↗ App Store Link</a>'
+      : '';
+    var viewBtn = a.url
+      ? '<button class="btn bg2" onclick="window.open(\'..'+a.url+'\')">View ↗</button>'
+      : '';
+    return '<div class="ac2">'
+      +'<div class="ac2-st"><span class="bge '+(a.status==='live'?'bgn':'bgg')+'">'+(a.status==='live'?'Live':'Dev')+'</span></div>'
+      +'<div style="margin-bottom:0.85rem;">'+iconHtml+'</div>'
+      +'<h3>'+a.name+'</h3>'
+      +'<p>'+(a.tagline||a.description||'–')+'</p>'
+      +storeLink
+      +'<div class="ac2-act">'
+      +'<button class="btn bg2" onclick="editApp('+a.id+')">Edit</button>'
+      +viewBtn
+      +'<button class="btn bd2" onclick="deleteApp('+a.id+')">Delete</button>'
+      +'</div>'
+      +'</div>';
+  }).join('');
+}
+
+function appModal(title, vals, onSave) {
+  vals = vals || {};
+  // Build modal HTML using a div to avoid quote-nesting issues
+  var div = document.createElement('div');
+  div.innerHTML = [
+    '<h2>' + title + '</h2>',
+    '<div class="f2">',
+      '<div class="fr"><div class="fi">App Name</div><input class="fin" id="am-n"></div>',
+      '<div class="fr"><div class="fi">Status</div>',
+        '<select class="fsl" id="am-s">',
+          '<option value="dev">In Dev</option>',
+          '<option value="live">Live</option>',
+        '</select>',
+      '</div>',
+    '</div>',
+    '<div class="fr"><div class="fi">Tagline</div><input class="fin" id="am-t" placeholder="Short one-line description"></div>',
+    '<div class="fr"><div class="fi">Description</div><textarea class="fta" id="am-d" rows="3" placeholder="Full description..."></textarea></div>',
+    '<div style="background:var(--bg);border-radius:8px;padding:0.85rem;margin-bottom:0.85rem;">',
+      '<div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--mu);margin-bottom:0.6rem;">Links</div>',
+      '<div class="fr"><div class="fi">Landing Page URL</div><input class="fin" id="am-u" placeholder="/apps/myapp/index.html"></div>',
+      '<div class="fr"><div class="fi">App Store / Play Store URL</div><input class="fin" id="am-store" placeholder="https://play.google.com/store/..."></div>',
+      '<div class="fr" style="margin-bottom:0"><div class="fi">Logo Image URL</div>',
+        '<input class="fin" id="am-logo" placeholder="https://... or /images/logo.png" oninput="previewLogo(this.value)">',
+        '<div id="logo-preview" style="margin-top:0.5rem;display:none;"><img id="am-logo-img" style="width:48px;height:48px;border-radius:12px;object-fit:cover;border:1px solid var(--bd);"></div>',
+      '</div>',
+    '</div>',
+    '<div style="background:var(--bg);border-radius:8px;padding:0.85rem;margin-bottom:0.85rem;">',
+      '<div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--mu);margin-bottom:0.6rem;">Appearance (fallback when no logo)</div>',
+      '<div class="f2" style="margin-bottom:0.6rem;">',
+        '<div><div class="fi">Icon (emoji)</div><input class="fin" id="am-i" maxlength="2"></div>',
+        '<div></div>',
+      '</div>',
+      '<div class="f2">',
+        '<div><div class="fi">BG Color</div><input type="color" id="am-bg" style="width:100%;height:34px;border:1px solid var(--bd);border-radius:6px;cursor:pointer;padding:2px;"></div>',
+        '<div><div class="fi">Text Color</div><input type="color" id="am-tc" style="width:100%;height:34px;border:1px solid var(--bd);border-radius:6px;cursor:pointer;padding:2px;"></div>',
+      '</div>',
+    '</div>',
+    '<div style="display:flex;gap:0.5rem;">',
+      '<button class="btn bp" id="am-save-btn">Save App</button>',
+      '<button class="btn bg2" onclick="closeModal()">Cancel</button>',
+    '</div>',
+  ].join('');
+  // Set values safely via JS (no quote issues)
+  div.querySelector('#am-n').value   = vals.name        || '';
+  div.querySelector('#am-t').value   = vals.tagline      || '';
+  div.querySelector('#am-d').value   = vals.description  || '';
+  div.querySelector('#am-u').value   = vals.url          || '';
+  div.querySelector('#am-store').value = vals.store_url  || '';
+  div.querySelector('#am-logo').value  = vals.logo_url   || '';
+  div.querySelector('#am-i').value   = vals.icon         || '★';
+  div.querySelector('#am-bg').value  = vals.color        || '#0f0f0f';
+  div.querySelector('#am-tc').value  = vals.text_color   || '#ffffff';
+  // set status select
+  var sel = div.querySelector('#am-s');
+  sel.value = vals.status || 'dev';
+  // show logo preview if url exists
+  if (vals.logo_url) {
+    var img = div.querySelector('#am-logo-img');
+    img.src = vals.logo_url;
+    div.querySelector('#logo-preview').style.display = 'block';
+  }
+  // wire save button
+  div.querySelector('#am-save-btn').onclick = function() { window[onSave] ? window[onSave]() : eval(onSave + '()'); };
+  openModalEl(div);
+}
+
+function previewLogo(url) {
+  var p   = document.getElementById('logo-preview');
+  var img = document.getElementById('am-logo-img');
+  if (!p || !img) return;
+  if (!url) { p.style.display = 'none'; return; }
+  img.src = url;
+  p.style.display = 'block';
+  img.onerror = function() { p.style.display = 'none'; };
+}
+
+function getAppModal() {
+  return {
+    name:        document.getElementById('am-n').value     || 'New App',
+    tagline:     document.getElementById('am-t').value,
+    description: document.getElementById('am-d').value,
+    url:         document.getElementById('am-u').value,
+    store_url:   document.getElementById('am-store').value,
+    logo_url:    document.getElementById('am-logo').value,
+    status:      document.getElementById('am-s').value,
+    color:       document.getElementById('am-bg').value,
+    text_color:  document.getElementById('am-tc').value,
+    icon:        document.getElementById('am-i').value     || '★'
+  };
+}
+
+function showAddApp() { appModal('Add New App', null, 'saveNewApp'); }
+
+async function saveNewApp() {
+  var d = Object.assign(getAppModal(), { sort_order: APPS.length });
+  try {
+    var r = await sb.insert('apps', d);
+    if (r && r[0]) APPS.push(r[0]);
+    closeModal(); renderApps(); toast('App added', 's');
+  } catch(e) { toast('Failed: ' + (e.message || JSON.stringify(e)), 'e'); }
+}
+
+function editApp(id) {
+  var a = APPS.find(function(x) { return x.id === id; });
+  if (!a) return;
+  appModal('Edit ' + a.name, a, 'saveEditApp_' + id);
+  window['saveEditApp_' + id] = function() { saveEditApp(id); };
+}
+
+async function saveEditApp(id) {
+  var d = getAppModal();
+  try {
+    await sb.update('apps', { id: id }, d);
+    var a = APPS.find(function(x) { return x.id === id; });
+    if (a) Object.assign(a, d);
+    closeModal(); renderApps(); toast('Updated', 's');
+  } catch(e) { toast('Failed: ' + (e.message || JSON.stringify(e)), 'e'); }
+}
+
+async function deleteApp(id) {
+  if (!confirm('Delete this app?')) return;
+  try {
+    await sb.delete('apps', { id: id });
+    APPS = APPS.filter(function(x) { return x.id !== id; });
+    renderApps(); toast('Deleted');
+  } catch(e) { toast('Failed', 'e'); }
+}
+
+// ── CHANGELOG ────────────────────────────────────────────────
+async function loadCL(){
+  document.getElementById('cl-list').innerHTML='<div class="empty">Loading…</div>';
+  try{var d=await sb.select('changelog','order=released_at.desc');CL=d||[];}
+  catch(e){CL=[];toast('Changelog load failed','e');}
+  renderCL();
+}
+
+function renderCL(){
+  document.getElementById('cl-list').innerHTML=CL.length
+    ?CL.map(function(c){
+      return '<div class="cli"><div style="display:flex;align-items:center;gap:1rem;justify-content:space-between;flex-wrap:wrap;">'
+        +'<div><strong>'+c.version+'</strong> <span style="font-size:0.72rem;color:var(--mu);">— '+c.released_at+'</span>'
+        +(c.app?'<span class="bge bgb" style="margin-left:0.5rem;">'+c.app+'</span>':'')+'</div>'
+        +'<div style="display:flex;gap:0.4rem;">'
+        +'<button class="btn bg2" style="font-size:0.6rem;padding:0.2rem 0.55rem;" onclick="editCL('+c.id+')">Edit</button>'
+        +'<button class="btn bd2" style="font-size:0.6rem;padding:0.2rem 0.55rem;" onclick="delCL('+c.id+')">Delete</button>'
+        +'</div></div>'
+        +'<div style="font-size:0.78rem;color:#444;margin-top:0.4rem;line-height:1.6;">'+(c.headline||'')+'</div>'
+        +'<div style="font-size:0.75rem;color:var(--mu);margin-top:0.2rem;line-height:1.5;">'+(c.summary||'')+'</div>'
+        +'</div>';}).join('')
+    :'<div class="empty">No entries yet</div>';
+}
+
+function clModal(title,vals,onSave){
+  vals=vals||{};
+  openModal('<h2>'+title+'</h2>'
+    +'<div class="f2"><div class="fr"><div class="fi">Version</div><input class="fin" id="cl-v" value="'+(vals.version||'')+'" placeholder="v1.3.0"></div>'
+    +'<div class="fr"><div class="fi">Date</div><input class="fin" id="cl-d" type="date" value="'+(vals.released_at||new Date().toISOString().slice(0,10))+'"></div></div>'
+    +'<div class="fr"><div class="fi">Headline</div><input class="fin" id="cl-h" value="'+(vals.headline||'')+'" placeholder="What changed"></div>'
+    +'<div class="fr"><div class="fi">App</div><input class="fin" id="cl-a" value="'+(vals.app||'Abide')+'" placeholder="Abide"></div>'
+    +'<div class="fr"><div class="fi">Summary</div><textarea class="fta" id="cl-b" rows="4" placeholder="Full description…">'+(vals.summary||'')+'</textarea></div>'
+    +'<div style="display:flex;gap:0.5rem;"><button class="btn bp" onclick="('+onSave+')()">Publish</button><button class="btn bg2" onclick="closeModal()">Cancel</button></div>');
+}
+
+function getCLModal(){return{version:document.getElementById('cl-v').value,released_at:document.getElementById('cl-d').value,headline:document.getElementById('cl-h').value,app:document.getElementById('cl-a').value,summary:document.getElementById('cl-b').value};}
+
+function showAddCL(){clModal('New Entry',null,'saveNewCL');}
+
+async function saveNewCL(){
+  try{var r=await sb.insert('changelog',getCLModal());if(r&&r[0])CL.unshift(r[0]);closeModal();renderCL();toast('Published','s');}
+  catch(e){toast('Failed: '+(e.message||JSON.stringify(e)),'e');}
+}
+
+function editCL(id){var c=CL.find(function(x){return x.id===id;});if(!c)return;clModal('Edit '+c.version,c,'function(){saveEditCL('+id+')}');}
+
+async function saveEditCL(id){
+  var d=getCLModal();
+  try{await sb.update('changelog',{id:id},d);var c=CL.find(function(x){return x.id===id;});if(c)Object.assign(c,d);closeModal();renderCL();toast('Updated','s');}
+  catch(e){toast('Failed','e');}
+}
+
+async function delCL(id){
+  if(!confirm('Delete?'))return;
+  try{await sb.delete('changelog',{id:id});CL=CL.filter(function(x){return x.id!==id;});renderCL();toast('Deleted');}
+  catch(e){toast('Failed','e');}
+}
+
+// ── CONTACTS ─────────────────────────────────────────────────
+var ALL_CONTACTS=[];
+async function loadContacts(){
+  document.getElementById('contacts-tbody').innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--mu);padding:2rem;">Loading…</td></tr>';
+  try{var d=await sb.select('contact_submissions','order=created_at.desc');ALL_CONTACTS=d||[];CONTACTS=ALL_CONTACTS;}
+  catch(e){ALL_CONTACTS=[];toast('Contacts load failed','e');}
+  renderContacts(ALL_CONTACTS);
+}
+
+function renderContacts(data){
+  document.getElementById('contacts-tbody').innerHTML=data.length
+    ?data.map(function(c){
+      var dt=c.created_at?new Date(c.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'–';
+      return '<tr class="tr-click" onclick="viewContact('+c.id+')">'
+        +'<td><strong>'+(c.first_name||'')+' '+(c.last_name||'')+'</strong>'+(c.read?'':' <span class="bge bgo" style="font-size:0.55rem;">New</span>')+'</td>'
+        +'<td style="color:var(--mu);font-size:0.8rem;">'+(c.email||'')+'</td>'
+        +'<td>'+(c.subject||'General')+'</td>'
+        +'<td style="color:var(--mu);font-size:0.75rem;">'+dt+'</td>'
+        +'<td><button class="btn bg2" style="font-size:0.6rem;padding:0.2rem 0.55rem;" onclick="event.stopPropagation();deleteContact('+c.id+')">Delete</button></td>'
+        +'</tr>';}).join('')
+    :'<tr><td colspan="5" class="empty">No contact submissions yet.</td></tr>';
+}
+
+function filterContacts(q){
+  q=q.toLowerCase();
+  var filtered=ALL_CONTACTS.filter(function(c){
+    return ((c.first_name||'')+(c.last_name||'')+(c.email||'')+(c.subject||'')+(c.message||'')).toLowerCase().includes(q);
+  });
+  renderContacts(filtered);
+}
+
+async function viewContact(id){
+  var c=ALL_CONTACTS.find(function(x){return x.id===id;});if(!c)return;
+  var dt=c.created_at?new Date(c.created_at).toLocaleString():'–';
+  openModal('<h2>Contact Message</h2>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.25rem;">'
+    +'<div><div class="fi">From</div><div style="font-size:0.88rem;font-weight:600;">'+(c.first_name||'')+' '+(c.last_name||'')+'</div></div>'
+    +'<div><div class="fi">Email</div><div style="font-size:0.85rem;"><a href="mailto:'+(c.email||'')+'" style="color:var(--ac);">'+(c.email||'')+'</a></div></div>'
+    +'<div><div class="fi">Subject</div><div style="font-size:0.85rem;">'+(c.subject||'General')+'</div></div>'
+    +'<div><div class="fi">Date</div><div style="font-size:0.78rem;color:var(--mu);">'+dt+'</div></div>'
+    +'</div>'
+    +'<div class="fi">Message</div>'
+    +'<div class="msg-box">'+(c.message||'(no message)')+'</div>'
+    +'<div style="display:flex;gap:0.5rem;margin-top:1.25rem;">'
+    +'<a href="mailto:'+(c.email||'')+'" class="btn bp">Reply via Email ↗</a>'
+    +'<button class="btn bg2" onclick="markRead('+id+')">Mark as Read</button>'
+    +'<button class="btn bg2" onclick="closeModal()">Close</button>'
+    +'</div>');
+  // mark as read automatically
+  if(!c.read){markRead(id,true);}
+}
+
+async function markRead(id,silent){
+  try{
+    await sb.update('contact_submissions',{id:id},{read:true});
+    var c=ALL_CONTACTS.find(function(x){return x.id===id;});
+    if(c)c.read=true;
+    if(!silent){closeModal();renderContacts(ALL_CONTACTS);toast('Marked as read','s');}
+    else{renderContacts(ALL_CONTACTS);}
+    // update badge
+    var unread=ALL_CONTACTS.filter(function(x){return !x.read;}).length;
+    var badge=document.getElementById('contact-badge');
+    if(unread>0){badge.textContent=unread;badge.style.display='inline';}else{badge.style.display='none';}
+  }catch(e){if(!silent)toast('Failed','e');}
+}
+
+async function deleteContact(id){
+  if(!confirm('Delete this submission?'))return;
+  try{await sb.delete('contact_submissions',{id:id});ALL_CONTACTS=ALL_CONTACTS.filter(function(x){return x.id!==id;});renderContacts(ALL_CONTACTS);toast('Deleted');}
+  catch(e){toast('Failed','e');}
+}
+
+// ── NEWSLETTER ───────────────────────────────────────────────
+async function loadNewsletter(){
+  document.getElementById('nl-tbody').innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--mu);padding:2rem;">Loading…</td></tr>';
+  try{var d=await sb.select('newsletter_signups','order=created_at.desc');NEWSLETTER=d||[];}
+  catch(e){NEWSLETTER=[];toast('Newsletter load failed','e');}
+  renderNewsletter();
+}
+
+function renderNewsletter(){
+  var now=new Date();
+  var today=now.toISOString().slice(0,10);
+  var weekAgo=new Date(now-7*24*60*60*1000).toISOString();
+  var todayCount=NEWSLETTER.filter(function(n){return n.created_at&&n.created_at.startsWith(today);}).length;
+  var weekCount=NEWSLETTER.filter(function(n){return n.created_at&&n.created_at>=weekAgo;}).length;
+  document.getElementById('nl-total').textContent=NEWSLETTER.length;
+  document.getElementById('nl-today').textContent=todayCount;
+  document.getElementById('nl-week').textContent=weekCount;
+  document.getElementById('nl-tbody').innerHTML=NEWSLETTER.length
+    ?NEWSLETTER.map(function(n){
+      var dt=n.created_at?new Date(n.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'–';
+      return '<tr><td style="font-weight:500;">'+(n.email||'')+'</td><td><span class="bge bgg">'+(n.source||'homepage')+'</span></td><td style="color:var(--mu);font-size:0.75rem;">'+dt+'</td>'
+        +'<td><button class="btn bd2" style="font-size:0.6rem;padding:0.2rem 0.55rem;" onclick="deleteNL('+n.id+')">Remove</button></td></tr>';}).join('')
+    :'<tr><td colspan="4" class="empty">No signups yet. Connect the homepage newsletter form.</td></tr>';
+}
+
+async function deleteNL(id){
+  if(!confirm('Remove this signup?'))return;
+  try{await sb.delete('newsletter_signups',{id:id});NEWSLETTER=NEWSLETTER.filter(function(x){return x.id!==id;});renderNewsletter();toast('Removed');}
+  catch(e){toast('Failed','e');}
+}
+
+function exportNewsletter(){
+  exportData(NEWSLETTER.map(function(n){return{email:n.email,source:n.source,date:n.created_at};}), 'newsletter');
+}
+
+// ── ANALYTICS ────────────────────────────────────────────────
+async function loadAnalytics(){
+  try{
+    var d=await sb.select('pageviews','select=path,created_at&order=created_at.desc');
+    d=d||[];
+    var now=new Date();
+    var today=now.toISOString().slice(0,10);
+    var weekAgo=new Date(now-7*24*60*60*1000).toISOString();
+    var vm={};d.forEach(function(v){vm[v.path]=(vm[v.path]||0)+1;});
+    var todayCount=d.filter(function(v){return v.created_at&&v.created_at.startsWith(today);}).length;
+    var weekCount=d.filter(function(v){return v.created_at&&v.created_at>=weekAgo;}).length;
+    document.getElementById('av').textContent=d.length;
+    document.getElementById('aup').textContent=Object.keys(vm).length;
+    document.getElementById('atd').textContent=todayCount;
+    document.getElementById('a7d').textContent=weekCount;
+    var sorted=Object.keys(vm).sort(function(a,b){return vm[b]-vm[a];}).slice(0,8);
+    var mx=sorted.length?vm[sorted[0]]:1;
+    document.getElementById('a-bars').innerHTML=sorted.length
+      ?sorted.map(function(p){return '<div class="br"><div class="bl">'+p+'</div><div class="bt"><div class="bf" style="width:'+Math.round(vm[p]/mx*100)+'%"></div></div><div class="bv">'+vm[p]+'</div></div>';}).join('')
+      :'<div class="empty">No pageviews tracked yet. Add js/analytics.js to your pages.</div>';
+    document.getElementById('a-recent').innerHTML=d.slice(0,8).map(function(v){
+      var dt=v.created_at?new Date(v.created_at).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}):'';
+      return '<div style="display:flex;justify-content:space-between;padding:0.45rem 0;border-bottom:1px solid var(--bd);font-size:0.75rem;">'
+        +'<span style="color:var(--mu);">'+v.path+'</span><span style="color:var(--mu);">'+dt+'</span></div>';}).join('');
+  }catch(e){toast('Analytics load failed: '+(e.message||JSON.stringify(e)),'e');}
+}
+
+// ── MODAL ────────────────────────────────────────────────────
+function openModal(html){
+  document.getElementById('mw').innerHTML='<div class="ov" onclick="if(event.target===this)closeModal()"><div class="mo"><button class="mo-close" onclick="closeModal()">✕</button>'+html+'</div></div>';
+}
+// accepts a DOM element (used by appModal to avoid quote nesting)
+function openModalEl(el){
+  var wrap = document.createElement('div');
+  wrap.className = 'ov';
+  wrap.onclick = function(e){ if(e.target===wrap) closeModal(); };
+  var box = document.createElement('div');
+  box.className = 'mo';
+  var closeBtn = document.createElement('button');
+  closeBtn.className = 'mo-close';
+  closeBtn.textContent = '✕';
+  closeBtn.onclick = closeModal;
+  box.appendChild(closeBtn);
+  box.appendChild(el);
+  wrap.appendChild(box);
+  var mw = document.getElementById('mw');
+  mw.innerHTML = '';
+  mw.appendChild(wrap);
+}
+function closeModal(){document.getElementById('mw').innerHTML='';}
+
+// ── EXPORT CSV ───────────────────────────────────────────────
+function exportData(data,name){
+  if(!data.length){toast('No data to export','e');return;}
+  var keys=Object.keys(data[0]);
+  var csv=keys.join(',')+'\n'+data.map(function(r){return keys.map(function(k){var v=r[k]||'';return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download=name+'-'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+  toast('CSV exported','s');
+}
+
+// ── TOAST ────────────────────────────────────────────────────
+var _tt;
+function toast(msg,type){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.className='show'+(type?' '+type:'');
+  clearTimeout(_tt);_tt=setTimeout(function(){t.className='';},3000);
+}
+
+// ── KEYBOARD SHORTCUTS ───────────────────────────────────────
+document.addEventListener('keydown',function(e){
+  if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();if(activePage&&curSec==='pages')savePage();}
+  if(e.key==='Escape')closeModal();
+});
+</script>
+</body>
+</html>

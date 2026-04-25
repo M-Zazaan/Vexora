@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abide Pricing — Vexora Studio</title>
+<meta name="description" content="Simple, fair pricing for Abide. Start with a 3-day free trial.">
+<link rel="stylesheet" href="/css/theme.css">
+<style>
+.pricing-toggle{display:flex;align-items:center;gap:1rem;justify-content:center;margin-bottom:3rem;}
+.toggle-track{width:52px;height:28px;border-radius:99px;background:var(--ink);position:relative;cursor:pointer;transition:background 0.2s;}
+.toggle-thumb{width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:4px;left:4px;transition:transform 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.3);}
+.toggle-track.annual .toggle-thumb{transform:translateX(24px);}
+.toggle-label{font-size:0.82rem;font-weight:500;color:var(--muted);transition:color 0.2s;}
+.toggle-label.active{color:var(--ink);font-weight:600;}
+.save-badge{background:var(--accent);color:#fff;font-size:0.6rem;font-weight:700;padding:0.2rem 0.55rem;border-radius:99px;letter-spacing:0.06em;text-transform:uppercase;}
+.faq-mini .faq-item{border-bottom:1px solid var(--border);}
+.faq-mini .faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;cursor:pointer;font-weight:600;font-size:0.88rem;gap:1rem;}
+.faq-mini .faq-q .icon{font-size:1rem;color:var(--muted);transition:transform 0.3s;flex-shrink:0;}
+.faq-mini .faq-item.open .faq-q .icon{transform:rotate(45deg);color:var(--accent);}
+.faq-mini .faq-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease;}
+.faq-mini .faq-item.open .faq-a{max-height:200px;}
+.faq-mini .faq-a p{font-size:0.85rem;color:var(--muted);line-height:1.8;padding-bottom:1.25rem;}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ──────────────────────────────────────────────── -->
+<section style="padding:10rem 3rem 5rem;text-align:center;border-bottom:1px solid var(--border);">
+  <div style="max-width:680px;margin:0 auto;">
+    <div class="page-label" style="justify-content:center;">Abide Pro</div>
+    <h1 class="vx-h1" style="font-size:clamp(3rem,8vw,6rem);margin-bottom:1rem;">Simple,<br><span class="red-text">honest</span> pricing.</h1>
+    <p style="font-size:1rem;color:var(--muted);line-height:1.8;margin-bottom:3rem;">Start with a 3-day free trial. No credit card required. Cancel anytime.</p>
+
+    <!-- Billing toggle -->
+    <div class="pricing-toggle">
+      <span class="toggle-label active" id="lbl-monthly">Monthly</span>
+      <div class="toggle-track" id="billing-toggle" onclick="toggleBilling()">
+        <div class="toggle-thumb"></div>
+      </div>
+      <span class="toggle-label" id="lbl-annual">Annual <span class="save-badge">Save 30%</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING CARDS ──────────────────────────────────────── -->
+<div class="vx-section" style="padding-top:4rem;">
+  <div class="pricing-grid" style="margin:0 auto;">
+
+    <!-- Free -->
+    <div class="pricing-card reveal">
+      <div style="font-family:var(--head);font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;">Free</div>
+      <div style="font-size:0.82rem;color:var(--muted);margin-bottom:1.5rem;">Everything you need to start.</div>
+      <div class="pricing-price"><sup>$</sup>0</div>
+      <div class="pricing-period">Forever free</div>
+      <ul class="pricing-feat">
+        <li>Daily prayer guide (1 per day)</li>
+        <li>Bible reading (World English Bible)</li>
+        <li>Basic streak tracking</li>
+        <li>3 prayer journal entries/month</li>
+        <li class="no">AI Father companion</li>
+        <li class="no">Full reading plan library</li>
+        <li class="no">Unlimited journal entries</li>
+        <li class="no">Offline mode</li>
+        <li class="no">Priority support</li>
+      </ul>
+      <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;">Get Started Free</a>
+    </div>
+
+    <!-- Pro -->
+    <div class="pricing-card featured reveal d1">
+      <div class="pricing-badge">Most Popular</div>
+      <div style="font-family:var(--head);font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;">Pro</div>
+      <div style="font-size:0.82rem;color:var(--muted);margin-bottom:1.5rem;">Full spiritual companion experience.</div>
+      <div class="pricing-price" id="price-display"><sup>$</sup><span id="price-num">4.99</span></div>
+      <div class="pricing-period" id="period-display">per month · billed monthly</div>
+      <ul class="pricing-feat">
+        <li>Everything in Free</li>
+        <li>AI Father companion (Groq-powered)</li>
+        <li>Full reading plan library</li>
+        <li>Unlimited journal entries</li>
+        <li>Offline mode — full Bible access</li>
+        <li>All prayer guide collections</li>
+        <li>Advanced streak &amp; progress tracking</li>
+        <li>Priority email support</li>
+        <li>Early access to new features</li>
+      </ul>
+      <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;" id="cta-btn">Start 3-Day Free Trial →</a>
+      <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.75rem;">Cancel before trial ends — pay nothing</p>
+    </div>
+
+  </div>
+
+  <!-- Trust signals -->
+  <div style="display:flex;justify-content:center;gap:3rem;margin-top:4rem;flex-wrap:wrap;">
+    <div style="text-align:center;">
+      <div style="font-size:1.4rem;margin-bottom:0.4rem;">🔒</div>
+      <div style="font-size:0.75rem;font-weight:600;">Secure Payments</div>
+      <div style="font-size:0.7rem;color:var(--muted);">via Paddle</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:1.4rem;margin-bottom:0.4rem;">↩️</div>
+      <div style="font-size:0.75rem;font-weight:600;">7-Day Refund</div>
+      <div style="font-size:0.7rem;color:var(--muted);">No questions asked</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:1.4rem;margin-bottom:0.4rem;">✕</div>
+      <div style="font-size:0.75rem;font-weight:600;">Cancel Anytime</div>
+      <div style="font-size:0.7rem;color:var(--muted);">No lock-in</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:1.4rem;margin-bottom:0.4rem;">🛡️</div>
+      <div style="font-size:0.75rem;font-weight:600;">Privacy First</div>
+      <div style="font-size:0.7rem;color:var(--muted);">We never sell your data</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FAQ ────────────────────────────────────────────────── -->
+<div class="vx-section" style="padding-top:0;max-width:680px;">
+  <div class="sec-label">FAQ</div>
+  <div class="faq-mini">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Does the free trial require a credit card? <span class="icon">+</span></div>
+      <div class="faq-a"><p>No credit card required for the 3-day free trial. You only provide payment details if you choose to continue after the trial.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What happens when my trial ends? <span class="icon">+</span></div>
+      <div class="faq-a"><p>If you haven't added payment details, your account automatically downgrades to the Free plan. No surprise charges.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Can I switch between monthly and annual? <span class="icon">+</span></div>
+      <div class="faq-a"><p>Yes, you can switch at any time from your account settings. When switching to annual, you'll be prorated for the remaining time.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I cancel? <span class="icon">+</span></div>
+      <div class="faq-a"><p>Cancel anytime from the Profile tab in the app, or email support@vexorastudio.com. You keep Pro access until the end of your billing period.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is my data private? <span class="icon">+</span></div>
+      <div class="faq-a"><p>Absolutely. AI Father conversations are stored only on your device. Journal entries are encrypted. We never sell your data. See our <a href="/privacy.html">Privacy Policy</a> for full details.</p></div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/supabase.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+var isAnnual = false;
+
+function toggleBilling() {
+  isAnnual = !isAnnual;
+  const toggle = document.getElementById('billing-toggle');
+  toggle.classList.toggle('annual', isAnnual);
+  document.getElementById('lbl-monthly').classList.toggle('active', !isAnnual);
+  document.getElementById('lbl-annual').classList.toggle('active', isAnnual);
+  document.getElementById('price-num').textContent = isAnnual ? '3.49' : '4.99';
+  document.getElementById('period-display').textContent = isAnnual ? 'per month · billed $41.99/year' : 'per month · billed monthly';
+}
+
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>

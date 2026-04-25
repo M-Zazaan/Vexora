@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abide — Daily Prayer & Bible App</title>
+<meta name="description" content="Abide is a spiritual wellness app for daily prayer, Bible reading, and personal reflection with AI companion.">
+<link rel="stylesheet" href="/css/theme.css">
+<style>
+.abide-hero{min-height:100vh;padding:10rem 3rem 6rem;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;background:var(--ink);}
+.abide-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%, rgba(200,168,75,0.08) 0%, transparent 70%);pointer-events:none;}
+.abide-hero h1{font-family:var(--head);font-size:clamp(4rem,10vw,8rem);font-weight:800;line-height:0.9;letter-spacing:-0.04em;color:white;}
+.abide-hero h1 em{color:#c8a84b;font-style:normal;}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.feature-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:2rem;transition:box-shadow 0.3s,transform 0.3s;}
+.feature-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
+.feat-ico{width:48px;height:48px;border-radius:12px;background:#0f0f0f;color:#c8a84b;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.25rem;}
+.feat-title{font-family:var(--head);font-size:1rem;font-weight:700;margin-bottom:0.5rem;}
+.feat-desc{font-size:0.82rem;color:var(--muted);line-height:1.75;}
+.screenshot-mockup{width:260px;height:520px;background:#0f0f0f;border-radius:32px;border:6px solid #1a1a1a;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 40px 80px rgba(0,0,0,0.25);}
+.screen-inner{width:100%;height:100%;background:linear-gradient(160deg,#111 0%,#1a1a1a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:2rem;}
+.screen-cross{font-size:3rem;color:#c8a84b;}
+.screen-title{font-family:var(--head);font-size:1.1rem;font-weight:700;color:white;text-align:center;}
+.screen-sub{font-size:0.7rem;color:rgba(255,255,255,0.4);text-align:center;line-height:1.6;}
+.screen-pill{background:rgba(200,168,75,0.2);color:#c8a84b;font-size:0.65rem;font-weight:700;padding:0.3rem 0.8rem;border-radius:99px;letter-spacing:0.06em;text-transform:uppercase;}
+@media(max-width:860px){
+  .feature-grid{grid-template-columns:1fr!important;}
+  .abide-hero{padding:8rem 1.5rem 5rem!important;}
+  .screenshot-mockup{width:200px;height:400px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── ABIDE HERO ─────────────────────────────────────────── -->
+<section class="abide-hero">
+  <div class="abide-hero-bg"></div>
+  <div style="max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center;" class="hero-inner-resp">
+    <div style="position:relative;z-index:1;">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem;">
+        <div style="width:44px;height:44px;border-radius:12px;background:rgba(200,168,75,0.15);color:#c8a84b;display:flex;align-items:center;justify-content:center;font-size:1.2rem;">✝</div>
+        <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Vexora Studio</span>
+      </div>
+      <h1 class="abide-hero h1">Abide.<br><em>Pray daily.</em><br><span style="color:rgba(255,255,255,0.25);">Grow deep.</span></h1>
+      <p style="font-size:1rem;color:rgba(255,255,255,0.5);line-height:1.85;max-width:480px;margin:2rem 0;">A spiritual companion for daily prayer, guided Bible reading, personal journaling, and AI-powered reflection — all in one thoughtful app.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="/apps/abide/pricing/index.html" class="btn" style="background:#c8a84b;color:#0f0f0f;font-weight:700;">Start Free Trial →</a>
+        <a href="/apps/abide/pricing/index.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);">View Pricing</a>
+      </div>
+      <p style="font-size:0.72rem;color:rgba(255,255,255,0.3);margin-top:1rem;">3-day free trial · No credit card required</p>
+    </div>
+    <div class="screenshot-mockup">
+      <div class="screen-inner">
+        <div class="screen-cross">✝</div>
+        <div class="screen-pill">Day 47 Streak</div>
+        <div class="screen-title">Good morning,<br>faithful one.</div>
+        <div class="screen-sub">Today's reading:<br>Psalm 23 · 5 min prayer</div>
+        <div style="width:80%;height:1px;background:rgba(255,255,255,0.08);margin:0.5rem 0;"></div>
+        <div style="font-size:0.68rem;color:rgba(255,255,255,0.3);text-align:center;">AI Father is ready<br>to guide your reflection</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ───────────────────────────────────────────── -->
+<div class="vx-marquee-wrap">
+  <div class="vx-marquee">
+    <span>Daily Prayer</span><span class="dot"> · </span>
+    <span>Bible Reading</span><span class="dot"> · </span>
+    <span>AI Companion</span><span class="dot"> · </span>
+    <span>Prayer Journal</span><span class="dot"> · </span>
+    <span>Streak Tracking</span><span class="dot"> · </span>
+    <span>Spiritual Wellness</span><span class="dot"> · </span>
+    <span>Daily Prayer</span><span class="dot"> · </span>
+    <span>Bible Reading</span><span class="dot"> · </span>
+    <span>AI Companion</span><span class="dot"> · </span>
+    <span>Prayer Journal</span><span class="dot"> · </span>
+    <span>Streak Tracking</span><span class="dot"> · </span>
+    <span>Spiritual Wellness</span><span class="dot"> · </span>
+  </div>
+</div>
+
+<!-- ── FEATURES ───────────────────────────────────────────── -->
+<div class="vx-section">
+  <div class="sec-label">Features</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-bottom:5rem;" class="feat-intro-resp">
+    <h2 class="vx-h2 reveal">Everything you need<br><span style="color:var(--muted);font-style:italic;font-family:var(--font);font-weight:300;">to build a prayer habit.</span></h2>
+    <p style="font-size:1rem;color:var(--muted);line-height:1.9;padding-top:0.5rem;" class="reveal d1">Abide was built for people who want to grow spiritually but struggle with consistency. Every feature is designed to make daily prayer effortless and meaningful.</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card reveal">
+      <div class="feat-ico">🙏</div>
+      <div class="feat-title">Guided Prayer</div>
+      <div class="feat-desc">Structured daily prayer guides covering morning, midday, and evening prayer rhythms. Never wonder what to pray.</div>
+    </div>
+    <div class="feature-card reveal d1">
+      <div class="feat-ico">📖</div>
+      <div class="feat-title">Bible Reading Plans</div>
+      <div class="feat-desc">Curated reading plans from Genesis to Revelation. Track progress and build a habit that sticks.</div>
+    </div>
+    <div class="feature-card reveal d2">
+      <div class="feat-ico">✍️</div>
+      <div class="feat-title">Prayer Journal</div>
+      <div class="feat-desc">Write prayers, record answered requests, and track your spiritual journey. Synced securely to your account.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-ico" style="color:#c8a84b;">🤖</div>
+      <div class="feat-title">AI Father</div>
+      <div class="feat-desc">A spiritually-grounded AI companion for reflection and encouragement — powered by Groq. Conversations stay private on your device.</div>
+    </div>
+    <div class="feature-card reveal d1">
+      <div class="feat-ico">🔥</div>
+      <div class="feat-title">Streak Tracking</div>
+      <div class="feat-desc">Visual streaks to celebrate consistency. Daily reminders at the time that works for you.</div>
+    </div>
+    <div class="feature-card reveal d2">
+      <div class="feat-ico">📴</div>
+      <div class="feat-title">Offline Mode</div>
+      <div class="feat-desc">Full Bible access and prayer guides available offline. Your spiritual practice doesn't need Wi-Fi.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DARK CTA ───────────────────────────────────────────── -->
+<section class="vx-dark-section">
+  <div class="vx-dark-inner" style="display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center;" class="dark-cta-resp">
+    <div>
+      <h2 class="vx-h2 reveal" style="color:white;margin-bottom:1rem;">Start your<br><em style="color:#c8a84b;font-style:normal;">3-day free trial.</em></h2>
+      <p class="reveal d1" style="color:rgba(255,255,255,0.45);font-size:1rem;line-height:1.8;max-width:440px;margin-bottom:2rem;">No credit card required. Cancel before the trial ends and pay nothing. Full Pro access from day one.</p>
+      <a href="/apps/abide/pricing/index.html" class="btn reveal d2" style="background:#c8a84b;color:#0f0f0f;font-weight:700;">See Pricing →</a>
+    </div>
+    <div class="reveal" style="text-align:right;">
+      <div style="font-family:var(--head);font-size:5rem;font-weight:800;color:rgba(255,255,255,0.06);line-height:1;">ABIDE</div>
+    </div>
+  </div>
+</section>
+
+<style>
+@media(max-width:860px){
+  .hero-inner-resp{grid-template-columns:1fr!important;gap:3rem!important;}
+  .hero-inner-resp>div:last-child{display:none;}
+  .feat-intro-resp{grid-template-columns:1fr!important;gap:2rem!important;}
+  .dark-cta-resp{grid-template-columns:1fr!important;}
+}
+</style>
+
+<script src="/js/supabase.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/nav.js"></script>
+</body>
+</html>
