@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vexora Studio — Apps That Matter</title>
+<meta name="description" content="Vexora Studio is an independent mobile app studio building thoughtful apps that improve real people's lives.">
+<meta property="og:title" content="Vexora Studio — Apps That Matter">
+<meta property="og:description" content="Independent app studio. Thoughtful apps built with purpose.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/theme.css">
+<style>
+.hero{min-height:100vh;padding:10rem 3rem 4rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.about-g{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:start;}
+.apps-top{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:4rem;}
+@media(max-width:860px){
+  .hero{padding:7rem 1.5rem 3rem;}
+  .about-g{grid-template-columns:1fr;gap:3rem;}
+  .apps-top{grid-template-columns:1fr;gap:1.5rem;}
+  .app-card-row>div:last-child{display:none;}
+  .nl-form{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">VX</div>
+  <div style="position:relative;z-index:1;">
+    <div class="hero-tag">Independent App Studio</div>
+    <h1 class="vx-h1">
+      We build<br>
+      <span class="stroke-text">apps</span> <span class="red-text">that</span><br>
+      <span class="stroke-text">matter.</span>
+    </h1>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;padding-top:4rem;position:relative;z-index:1;flex-wrap:wrap;gap:2rem;">
+    <p style="font-size:1rem;color:var(--muted);line-height:1.8;max-width:360px;">Thoughtful mobile apps designed to improve real people's lives — with care, craft, and intention.</p>
+    <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:0.75rem;">
+      Scroll to explore <span style="animation:bounce 1.5s ease infinite;display:inline-block;">↓</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="vx-marquee-wrap">
+  <div class="vx-marquee">
+    <span>Vexora Studio</span><span class="dot"> · </span>
+    <span>Abide App</span><span class="dot"> · </span>
+    <span>Daily Prayer</span><span class="dot"> · </span>
+    <span>Bible Reading</span><span class="dot"> · </span>
+    <span>Built with Purpose</span><span class="dot"> · </span>
+    <span>Android Apps</span><span class="dot"> · </span>
+    <span>Vexora Studio</span><span class="dot"> · </span>
+    <span>Abide App</span><span class="dot"> · </span>
+    <span>Daily Prayer</span><span class="dot"> · </span>
+    <span>Bible Reading</span><span class="dot"> · </span>
+    <span>Built with Purpose</span><span class="dot"> · </span>
+    <span>Android Apps</span><span class="dot"> · </span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="vx-section" id="about">
+  <div class="sec-label">01 — About us</div>
+  <div class="about-g">
+    <div class="reveal">
+      <h2 class="vx-h2">Small studio.<br><em style="color:var(--muted);font-style:italic;font-family:var(--font);font-weight:300;">Big</em> intentions.</h2>
+    </div>
+    <div class="reveal d1">
+      <p style="font-size:1rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem;">Vexora Studio is an independent mobile app studio. We don't build apps to fill app stores — we build apps that solve real problems and improve people's everyday lives.</p>
+      <p style="font-size:1rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem;">Every product we ship goes through the same filter: does this genuinely help someone? If not, we don't build it.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;padding-top:3rem;border-top:1px solid var(--border);">
+        <div>
+          <div style="font-family:var(--head);font-size:3rem;font-weight:800;letter-spacing:-0.04em;" id="stat-apps">01</div>
+          <div style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.25rem;">App launched</div>
+        </div>
+        <div>
+          <div style="font-family:var(--head);font-size:3rem;font-weight:800;letter-spacing:-0.04em;">∞</div>
+          <div style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.25rem;">More coming</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="vx-divider">
+
+<!-- APPS -->
+<div class="vx-section" id="apps">
+  <div class="apps-top">
+    <h2 class="vx-h2 reveal">Our Apps</h2>
+    <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;padding-top:0.5rem;" class="reveal d1">Each app is built around a single problem, solved with genuine care and precision.</p>
+  </div>
+  <div id="apps-list">
+    <!-- Static fallback — replaced by Supabase data if available -->
+    <a href="/apps/abide/index.html" class="app-card-row reveal" style="display:grid;grid-template-columns:80px 1fr auto;">
+      <div style="font-family:var(--head);font-size:0.68rem;font-weight:700;color:var(--muted);letter-spacing:0.1em;">01</div>
+      <div style="display:flex;align-items:center;gap:2rem;">
+        <div style="width:60px;height:60px;border-radius:14px;background:#0f0f0f;color:#c8a84b;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">✝</div>
+        <div>
+          <h3 style="font-family:var(--head);font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.2rem;">Abide</h3>
+          <p style="font-size:0.82rem;color:var(--muted);">Daily Prayer &amp; Bible · Spiritual wellness app</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:1.5rem;">
+        <span class="pill pill-live">Live</span>
+        <span class="arr">→</span>
+      </div>
+    </a>
+    <div class="app-card-row reveal" style="pointer-events:none;opacity:0.35;display:grid;grid-template-columns:80px 1fr auto;">
+      <div style="font-family:var(--head);font-size:0.68rem;font-weight:700;color:var(--muted);letter-spacing:0.1em;">02</div>
+      <div style="display:flex;align-items:center;gap:2rem;">
+        <div style="width:60px;height:60px;border-radius:14px;background:#e8e8e4;color:#888;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">?</div>
+        <div>
+          <h3 style="font-family:var(--head);font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.2rem;">Coming Soon</h3>
+          <p style="font-size:0.82rem;color:var(--muted);">Next app in development</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:1.5rem;">
+        <span class="pill pill-soon">In Dev</span>
+        <span class="arr">→</span>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:2.5rem;">
+    <a href="/apps.html" class="btn btn-outline">View all apps →</a>
+  </div>
+</div>
+
+<!-- VALUES -->
+<section class="vx-dark-section">
+  <div class="vx-dark-inner">
+    <h2 class="reveal">How we build</h2>
+    <div class="val-grid">
+      <div class="val reveal">
+        <div class="val-n">01</div>
+        <div class="val-t">Problem first</div>
+        <div class="val-d">We start with a real problem real people have. Never with a technology looking for a use case.</div>
+      </div>
+      <div class="val reveal d1">
+        <div class="val-n">02</div>
+        <div class="val-t">Relentlessly simple</div>
+        <div class="val-d">One app. One core problem. Solved exceptionally well. We resist the urge to add features nobody asked for.</div>
+      </div>
+      <div class="val reveal d2">
+        <div class="val-n">03</div>
+        <div class="val-t">Privacy by default</div>
+        <div class="val-d">We collect only what we need. We never sell your data. Your trust is the foundation of everything we build.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="vx-section" style="text-align:center;border-bottom:1px solid var(--border);">
+  <div class="reveal" style="max-width:560px;margin:0 auto;">
+    <div class="page-label" style="justify-content:center;">Stay in the loop</div>
+    <h2 class="vx-h2" style="margin-bottom:1.5rem;">Get updates on<br>new apps &amp; features</h2>
+    <form id="nl-form" onsubmit="handleNewsletter(event)" style="display:flex;gap:0.75rem;max-width:420px;margin:0 auto;" class="nl-form">
+      <input type="email" class="vx-input" id="nl-email" placeholder="your@email.com" required style="flex:1;">
+      <button type="submit" class="btn btn-primary" id="nl-btn">Subscribe</button>
+    </form>
+    <div id="nl-success" style="display:none;margin-top:1rem;">
+      <span style="font-size:0.9rem;color:var(--green,#1a6e3c);font-weight:600;">✓ You're subscribed!</span>
+    </div>
+    <div id="nl-error" style="display:none;margin-top:0.75rem;font-size:0.78rem;color:var(--red,#c0392b);"></div>
+    <p style="font-size:0.72rem;color:var(--muted);margin-top:1rem;">No spam. Unsubscribe anytime.</p>
+  </div>
+</div>
+
+<script src="/js/supabase.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+// Load apps dynamically from Supabase
+async function loadApps() {
+  try {
+    var apps = await sb.select('apps', 'order=sort_order.asc&status=neq.hidden');
+    if (!apps || !apps.length) return;
+    var list = document.getElementById('apps-list');
+    list.innerHTML = apps.map(function(a, i) {
+      var num = String(i + 1).padStart(2, '0');
+      var isClickable = a.status === 'live' && a.url;
+      var tag = isClickable ? 'a' : 'div';
+      var href = isClickable ? ' href="' + a.url + '"' : '';
+      var fade = !isClickable ? ' style="pointer-events:none;opacity:0.4;display:grid;grid-template-columns:80px 1fr auto;"' : ' style="display:grid;grid-template-columns:80px 1fr auto;"';
+      return '<' + tag + href + ' class="app-card-row reveal"' + fade + '>'
+        + '<div style="font-family:var(--head);font-size:0.68rem;font-weight:700;color:var(--muted);letter-spacing:0.1em;">' + num + '</div>'
+        + '<div style="display:flex;align-items:center;gap:2rem;">'
+        + '<div style="width:60px;height:60px;border-radius:14px;background:' + (a.color || '#0f0f0f') + ';color:' + (a.text_color || '#fff') + ';display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">' + (a.icon || '★') + '</div>'
+        + '<div><h3 style="font-family:var(--head);font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.2rem;">' + a.name + '</h3>'
+        + '<p style="font-size:0.82rem;color:var(--muted);">' + (a.tagline || '') + '</p></div>'
+        + '</div>'
+        + '<div style="display:flex;align-items:center;gap:1.5rem;">'
+        + '<span class="pill ' + (a.status === 'live' ? 'pill-live' : 'pill-soon') + '">' + (a.status === 'live' ? 'Live' : 'In Dev') + '</span>'
+        + '<span class="arr">→</span>'
+        + '</div>'
+        + '</' + tag + '>';
+    }).join('');
+    // update stat
+    var liveCount = apps.filter(function(a) { return a.status === 'live'; }).length;
+    document.getElementById('stat-apps').textContent = String(liveCount).padStart(2, '0');
+    // re-run reveal observer on new elements
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('vis'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal:not(.vis)').forEach(function(el) { obs.observe(el); });
+  } catch(e) {
+    // silently use static fallback
+  }
+}
+loadApps();
+
+// Newsletter signup — saves to Supabase newsletter_signups table
+async function handleNewsletter(e) {
+  e.preventDefault();
+  var email = document.getElementById('nl-email').value.trim();
+  var btn   = document.getElementById('nl-btn');
+  var errEl = document.getElementById('nl-error');
+  btn.textContent = '…';
+  btn.disabled = true;
+  errEl.style.display = 'none';
+  try {
+    await sb.insert('newsletter_signups', {
+      email:  email,
+      source: 'homepage',
+      created_at: new Date().toISOString()
+    });
+    document.getElementById('nl-form').style.display    = 'none';
+    document.getElementById('nl-success').style.display = 'block';
+  } catch(err) {
+    // duplicate email (unique constraint) = already subscribed
+    var msg = (err.code === '23505' || (err.message && err.message.includes('duplicate')))
+      ? 'You\'re already subscribed!'
+      : 'Something went wrong. Try again.';
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+    btn.textContent = 'Subscribe';
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

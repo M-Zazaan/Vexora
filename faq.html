@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Vexora Studio</title>
+<meta name="description" content="Frequently asked questions about Vexora Studio apps, billing, and privacy.">
+<link rel="stylesheet" href="/css/theme.css">
+</head>
+<body>
+
+<!-- ── HERO ──────────────────────────────────────────────── -->
+<section style="padding:10rem 3rem 5rem;border-bottom:1px solid var(--border);position:relative;overflow:hidden;">
+  <div class="hero-bg-text" style="font-size:clamp(8rem,18vw,16rem);">FAQ</div>
+  <div style="max-width:1200px;margin:0 auto;position:relative;z-index:1;">
+    <div class="hero-tag">Help Center</div>
+    <h1 class="vx-h1" style="font-size:clamp(3rem,7vw,6rem);">Got<br><span class="red-text">questions?</span></h1>
+    <p style="font-size:1rem;color:var(--muted);line-height:1.8;max-width:440px;margin-top:1.5rem;">We've answered the most common ones below. Can't find what you're looking for? <a href="/contact.html" style="color:var(--accent);border-bottom:1px solid rgba(255,77,0,0.3);">Contact us</a>.</p>
+  </div>
+</section>
+
+<!-- ── FAQ SECTIONS ───────────────────────────────────────── -->
+<div class="vx-section" style="max-width:860px;">
+
+  <!-- Search -->
+  <div style="margin-bottom:3rem;">
+    <input class="vx-input" type="search" id="faq-search" placeholder="Search questions…" oninput="filterFaqs(this.value)" style="font-size:1rem;padding:1rem 1.25rem;">
+  </div>
+
+  <div id="faq-sections">
+
+    <!-- GENERAL -->
+    <div class="faq-section" data-section="general">
+      <div class="sec-label">General</div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is Vexora Studio? <span class="icon">+</span></div><div class="faq-a"><p>Vexora Studio is an independent mobile app studio. We build thoughtful apps focused on solving real problems for real people. Our first app is Abide — a spiritual wellness companion for daily prayer and Bible reading.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Where are your apps available? <span class="icon">+</span></div><div class="faq-a"><p>Currently our apps are available on Android. iOS support is on our roadmap — sign up for our newsletter to be notified when it launches.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I contact support? <span class="icon">+</span></div><div class="faq-a"><p>Email us at <a href="mailto:support@vexorastudio.com">support@vexorastudio.com</a>. We respond within 24 hours on weekdays.</p></div></div>
+    </div>
+
+    <!-- ABIDE -->
+    <div class="faq-section" data-section="abide" style="margin-top:3rem;">
+      <div class="sec-label">Abide App</div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is Abide? <span class="icon">+</span></div><div class="faq-a"><p>Abide is a spiritual wellness app for daily prayer, guided Bible reading, personal journaling, and AI-powered reflection. It's designed to help you build a consistent, meaningful prayer habit.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is AI Father? <span class="icon">+</span></div><div class="faq-a"><p>AI Father is a spiritually-grounded AI companion powered by Groq. It provides guided reflection, encouragement, and prayer prompts. Conversations are stored only on your device and never sent to our servers. It's not a substitute for professional pastoral counseling.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Does Abide work offline? <span class="icon">+</span></div><div class="faq-a"><p>Yes — Pro subscribers have full offline access to the Bible and all prayer guides. Your journal also syncs when you're back online.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Which Bible translation does Abide use? <span class="icon">+</span></div><div class="faq-a"><p>Abide uses the World English Bible (WEB), a public domain translation. Additional translations may be added in future updates.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I use Abide without creating an account? <span class="icon">+</span></div><div class="faq-a"><p>Basic features are available without an account, but you'll need to sign up to sync your journal, track streaks across devices, and access Pro features.</p></div></div>
+    </div>
+
+    <!-- BILLING -->
+    <div class="faq-section" data-section="billing" style="margin-top:3rem;">
+      <div class="sec-label">Billing &amp; Subscriptions</div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does the free trial work? <span class="icon">+</span></div><div class="faq-a"><p>All Pro subscriptions include a 3-day free trial. You won't be charged during the trial. If you cancel before the trial ends, you won't be charged at all.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How much does Pro cost? <span class="icon">+</span></div><div class="faq-a"><p>Abide Pro is $4.99/month or $41.99/year (saving ~30%). Check our <a href="/apps/abide/pricing/index.html">pricing page</a> for the latest pricing.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I cancel my subscription? <span class="icon">+</span></div><div class="faq-a"><p>Cancel from the Profile tab in the app, or email <a href="mailto:support@vexorastudio.com">support@vexorastudio.com</a>. You keep Pro access until the end of your current billing period.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I get a refund? <span class="icon">+</span></div><div class="faq-a"><p>Yes — we offer a 7-day refund policy on your first payment. See our <a href="/refund.html">Refund Policy</a> for full details, or email <a href="mailto:support@vexorastudio.com">support@vexorastudio.com</a>.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Who processes payments? <span class="icon">+</span></div><div class="faq-a"><p>Payments are processed securely by Paddle. We never store your payment details on our servers.</p></div></div>
+    </div>
+
+    <!-- PRIVACY -->
+    <div class="faq-section" data-section="privacy" style="margin-top:3rem;">
+      <div class="sec-label">Privacy &amp; Data</div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What data do you collect? <span class="icon">+</span></div><div class="faq-a"><p>We collect only what's needed to run the app: your email, usage data (streaks, completed tasks), and journal entries. We never sell your data. See our full <a href="/privacy.html">Privacy Policy</a>.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Are my journal entries private? <span class="icon">+</span></div><div class="faq-a"><p>Yes. Journal entries are stored securely in your account and never shared with third parties. Only you can access them.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I delete my account? <span class="icon">+</span></div><div class="faq-a"><p>Delete your account from the Profile tab in the app, or email <a href="mailto:privacy@vexorastudio.com">privacy@vexorastudio.com</a>. We'll delete your data within 7 days.</p></div></div>
+    </div>
+
+    <!-- No results -->
+    <div id="faq-no-results" style="display:none;text-align:center;padding:4rem;color:var(--muted);">
+      <div style="font-size:2rem;margin-bottom:1rem;">🤔</div>
+      <div style="font-weight:600;margin-bottom:0.5rem;">No results found</div>
+      <p style="font-size:0.85rem;">Try a different search, or <a href="/contact.html" style="color:var(--accent);">contact us directly</a>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── STILL NEED HELP ─────────────────────────────────────── -->
+<section class="vx-dark-section" style="padding:6rem 3rem;">
+  <div class="vx-dark-inner" style="text-align:center;">
+    <h2 class="vx-h2 reveal" style="color:white;margin-bottom:1rem;">Still need help?</h2>
+    <p class="reveal d1" style="color:rgba(255,255,255,0.4);max-width:400px;margin:0 auto 2rem;line-height:1.8;">Our support team responds within 24 hours. We're real people who care.</p>
+    <a href="/contact.html" class="btn btn-accent reveal d2">Contact Support →</a>
+  </div>
+</section>
+
+<script src="/js/supabase.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+function filterFaqs(q) {
+  q = q.toLowerCase().trim();
+  let anyVisible = false;
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    const match = !q || text.includes(q);
+    item.style.display = match ? '' : 'none';
+    if (match) anyVisible = true;
+  });
+  document.querySelectorAll('.faq-section').forEach(s => {
+    const visible = [...s.querySelectorAll('.faq-item')].some(i => i.style.display !== 'none');
+    s.style.display = visible ? '' : 'none';
+  });
+  document.getElementById('faq-no-results').style.display = anyVisible ? 'none' : 'block';
+}
+</script>
+</body>
+</html>

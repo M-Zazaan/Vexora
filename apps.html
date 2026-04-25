@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apps — Vexora Studio</title>
+<meta name="description" content="All apps by Vexora Studio. Each built around one problem, solved exceptionally well.">
+<link rel="stylesheet" href="/css/theme.css">
+</head>
+<body>
+
+<!-- ── PAGE HERO ─────────────────────────────────────────── -->
+<section style="padding:10rem 3rem 5rem;border-bottom:1px solid var(--border);position:relative;overflow:hidden;">
+  <div class="hero-bg-text">APPS</div>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;">
+    <div class="hero-tag">Our Portfolio</div>
+    <h1 class="vx-h1">Every app<br>has a <span class="red-text">purpose.</span></h1>
+    <p style="font-size:1rem;color:var(--muted);line-height:1.8;max-width:480px;margin-top:2rem;">We build one app at a time. Each one solves a real problem for real people. No filler. No fluff.</p>
+  </div>
+</section>
+
+<!-- ── FILTER BAR ─────────────────────────────────────────── -->
+<div style="border-bottom:1px solid var(--border);padding:0 3rem;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;gap:0.5rem;padding:1rem 0;overflow-x:auto;">
+    <button class="btn btn-sm btn-primary filter-btn active" data-filter="all" onclick="filterApps('all',this)">All</button>
+    <button class="btn btn-sm btn-outline filter-btn" data-filter="live" onclick="filterApps('live',this)">Live</button>
+    <button class="btn btn-sm btn-outline filter-btn" data-filter="dev" onclick="filterApps('dev',this)">In Development</button>
+  </div>
+</div>
+
+<!-- ── APPS LIST ──────────────────────────────────────────── -->
+<div class="vx-section">
+  <div id="apps-container">
+    <!-- Loading state -->
+    <div id="apps-loading" style="text-align:center;padding:4rem;color:var(--muted);font-size:0.85rem;">Loading apps…</div>
+    <!-- JS renders here -->
+  </div>
+</div>
+
+<!-- ── BUILD CTA ──────────────────────────────────────────── -->
+<section class="vx-dark-section">
+  <div class="vx-dark-inner" style="text-align:center;">
+    <div class="page-label reveal" style="justify-content:center;color:rgba(255,255,255,0.35);">What's next</div>
+    <h2 class="vx-h2 reveal" style="color:white;margin-bottom:1.5rem;">More apps<br><span style="color:rgba(255,255,255,0.3);font-style:italic;font-family:var(--font);font-weight:300;">always in the works.</span></h2>
+    <p class="reveal d1" style="color:rgba(255,255,255,0.4);font-size:0.95rem;max-width:480px;margin:0 auto 2.5rem;">We're constantly working on the next problem worth solving. Follow along for updates.</p>
+    <a href="/contact.html" class="btn btn-accent reveal d2">Get in touch →</a>
+  </div>
+</section>
+
+<script src="/js/supabase.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+var allApps = [];
+
+// Static fallback apps
+var STATIC_APPS = [
+  {id:1, name:'Abide', tagline:'Daily Prayer & Bible', description:'Spiritual wellness app for daily prayer, Bible reading, and personal reflection with AI companion.', status:'live', color:'#0f0f0f', text_color:'#c8a84b', icon:'✝', url:'/apps/abide/index.html', sort_order:1},
+  {id:2, name:'Coming Soon', tagline:'Next App In Development', description:'We\'re working on something new. Stay tuned for the next app from Vexora Studio.', status:'dev', color:'#e8e8e4', text_color:'#888', icon:'?', url:'', sort_order:2},
+];
+
+async function loadApps() {
+  try {
+    const apps = await sb.select('apps', 'order=sort_order.asc&status=neq.hidden');
+    allApps = apps && apps.length ? apps : STATIC_APPS;
+  } catch(e) {
+    allApps = STATIC_APPS;
+  }
+  renderApps(allApps);
+}
+
+function renderApps(apps) {
+  document.getElementById('apps-loading').style.display = 'none';
+  const container = document.getElementById('apps-container');
+  if (!apps.length) {
+    container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:4rem;">No apps found.</p>';
+    return;
+  }
+  container.innerHTML = apps.map((a, i) => `
+    <div class="app-full-card reveal" data-status="${a.status}" style="display:grid;grid-template-columns:auto 1fr auto;gap:3rem;align-items:center;padding:3rem 0;border-bottom:1px solid var(--border);">
+      <div style="width:80px;height:80px;border-radius:18px;background:${a.color||'#0f0f0f'};color:${a.text_color||'#fff'};display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;">${a.icon||'★'}</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;flex-wrap:wrap;">
+          <h2 style="font-family:var(--head);font-size:2rem;font-weight:800;letter-spacing:-0.03em;">${a.name}</h2>
+          <span class="pill ${a.status==='live'?'pill-live':'pill-soon'}">${a.status==='live'?'Live':'In Dev'}</span>
+        </div>
+        <p style="font-size:0.88rem;color:var(--muted);margin-bottom:0.75rem;">${a.tagline||''}</p>
+        <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.7;max-width:560px;">${a.description||''}</p>
+        ${a.tags ? `<div style="display:flex;gap:0.5rem;margin-top:1rem;flex-wrap:wrap;">${a.tags.split(',').map(t=>`<span class="badge badge-gray">${t.trim()}</span>`).join('')}</div>` : ''}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;align-items:flex-end;">
+        ${a.url ? `<a href="${a.url}" class="btn btn-primary">View App →</a>` : `<button class="btn btn-outline" disabled style="opacity:0.5;">Coming Soon</button>`}
+        ${a.url ? `<a href="${a.url.replace('index.html','').replace(/\/$/,'')}/pricing/" class="btn btn-outline btn-sm">Pricing</a>` : ''}
+      </div>
+    </div>
+  `).join('');
+  // re-observe reveals
+  document.querySelectorAll('.reveal:not(.vis)').forEach(el => {
+    const obs = new IntersectionObserver(e => { if(e[0].isIntersecting) e[0].target.classList.add('vis'); }, {threshold:0.1});
+    obs.observe(el);
+  });
+}
+
+function filterApps(status, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => { b.className = 'btn btn-sm btn-outline filter-btn'; });
+  btn.className = 'btn btn-sm btn-primary filter-btn active';
+  const filtered = status === 'all' ? allApps : allApps.filter(a => a.status === status);
+  renderApps(filtered);
+}
+
+loadApps();
+</script>
+</body>
+</html>

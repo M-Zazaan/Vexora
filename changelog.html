@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changelog — Vexora Studio</title>
+<meta name="description" content="Product updates and release notes for Vexora Studio apps.">
+<link rel="stylesheet" href="/css/theme.css">
+</head>
+<body>
+
+<!-- ── HERO ──────────────────────────────────────────────── -->
+<section style="padding:10rem 3rem 5rem;border-bottom:1px solid var(--border);position:relative;overflow:hidden;">
+  <div class="hero-bg-text" style="font-size:clamp(6rem,14vw,13rem);">LOG</div>
+  <div style="max-width:1200px;margin:0 auto;position:relative;z-index:1;">
+    <div class="hero-tag">What's New</div>
+    <h1 class="vx-h1" style="font-size:clamp(3rem,7vw,6rem);">Change<span class="red-text">log.</span></h1>
+    <p style="font-size:1rem;color:var(--muted);line-height:1.8;max-width:440px;margin-top:1.5rem;">Every update, improvement, and fix — documented. We ship thoughtfully and tell you exactly what changed.</p>
+  </div>
+</section>
+
+<!-- ── FILTER ─────────────────────────────────────────────── -->
+<div style="border-bottom:1px solid var(--border);padding:0 3rem;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;gap:0.5rem;padding:1rem 0;overflow-x:auto;align-items:center;">
+    <span style="font-size:0.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-right:0.5rem;">Filter:</span>
+    <button class="btn btn-sm btn-primary filter-btn active" onclick="filterCL('all',this)">All</button>
+    <button class="btn btn-sm btn-outline filter-btn" onclick="filterCL('feature',this)">Features</button>
+    <button class="btn btn-sm btn-outline filter-btn" onclick="filterCL('fix',this)">Bug Fixes</button>
+    <button class="btn btn-sm btn-outline filter-btn" onclick="filterCL('improvement',this)">Improvements</button>
+  </div>
+</div>
+
+<!-- ── CHANGELOG ENTRIES ──────────────────────────────────── -->
+<div class="vx-section" id="cl-container" style="max-width:1000px;">
+  <div id="cl-loading" style="text-align:center;padding:4rem;color:var(--muted);">Loading changelog…</div>
+</div>
+
+<script src="/js/supabase.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/nav.js"></script>
+<script>
+var CL_DATA = [
+  {
+    version:'v1.2.0', date:'April 24, 2026', app:'Abide',
+    headline:'AI Father + Streak Overhaul',
+    summary:'Major update bringing the AI Father companion feature and a completely redesigned streak tracking system.',
+    tags:['feature','improvement'],
+    items:[
+      {type:'feature', text:'AI Father — spiritually-guided AI companion powered by Groq (Pro only)'},
+      {type:'feature', text:'Conversations stored locally on device for full privacy'},
+      {type:'improvement', text:'Streak tracking redesigned with visual calendar view'},
+      {type:'improvement', text:'Faster Bible text loading — now under 200ms'},
+      {type:'fix', text:'Fixed journal sync issue on poor network connections'},
+      {type:'fix', text:'Fixed notification delivery on Android 13+'},
+    ]
+  },
+  {
+    version:'v1.1.0', date:'March 15, 2026', app:'Abide',
+    headline:'Prayer Journal + Dark Mode',
+    summary:'Introducing the Prayer Journal with cloud sync, plus full dark mode support across all screens.',
+    tags:['feature','improvement'],
+    items:[
+      {type:'feature', text:'Prayer Journal — write, sync, and review prayer entries'},
+      {type:'feature', text:'Dark mode — toggle from Profile settings'},
+      {type:'feature', text:'Offline mode — full Bible access without internet (Pro)'},
+      {type:'improvement', text:'Onboarding flow redesigned — 40% faster to first prayer'},
+      {type:'fix', text:'Resolved crash on older Android 9 devices'},
+      {type:'fix', text:'Fixed streak reset on midnight timezone edge case'},
+    ]
+  },
+  {
+    version:'v1.0.1', date:'January 12, 2026', app:'Abide',
+    headline:'Launch Patch',
+    summary:'Quick stability fixes following the initial launch.',
+    tags:['fix'],
+    items:[
+      {type:'fix', text:'Fixed login loop for some Google account users'},
+      {type:'fix', text:'Corrected Psalm 119 line breaks in reading view'},
+      {type:'fix', text:'Fixed subscription restore on reinstall'},
+    ]
+  },
+  {
+    version:'v1.0.0', date:'January 1, 2026', app:'Abide',
+    headline:'Abide Launches 🎉',
+    summary:'The first release of Abide — Daily Prayer & Bible app is now available on Android.',
+    tags:['feature'],
+    items:[
+      {type:'feature', text:'Daily guided prayer — morning, midday, and evening'},
+      {type:'feature', text:'Bible reading with the World English Bible (public domain)'},
+      {type:'feature', text:'Streak tracking to build consistent habits'},
+      {type:'feature', text:'Daily reminders with custom time selection'},
+      {type:'feature', text:'Free tier + Abide Pro subscription via Paddle'},
+    ]
+  },
+];
+
+var activeFilter = 'all';
+var tagColors = { feature:'badge-orange', fix:'badge-gray', improvement:'badge-green' };
+var tagLabels = { feature:'New Feature', fix:'Bug Fix', improvement:'Improvement' };
+
+function renderCL(data) {
+  document.getElementById('cl-loading').style.display = 'none';
+  const container = document.getElementById('cl-container');
+  const filtered = activeFilter === 'all' ? data : data.filter(e => e.tags.includes(activeFilter));
+  if (!filtered.length) {
+    container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:4rem;">No entries found.</p>';
+    return;
+  }
+  container.innerHTML = filtered.map(entry => `
+    <div class="cl-item reveal">
+      <div>
+        <div class="cl-ver">${entry.version}</div>
+        <div class="cl-date">${entry.date}</div>
+        <div class="cl-tags">
+          ${entry.tags.map(t => `<span class="badge ${tagColors[t]||'badge-gray'}">${tagLabels[t]||t}</span>`).join('')}
+        </div>
+        <div style="margin-top:1rem;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);">${entry.app}</div>
+      </div>
+      <div class="cl-body">
+        <h3>${entry.headline}</h3>
+        <p>${entry.summary}</p>
+        <ul>
+          ${entry.items.map(item => `
+            <li style="display:flex;align-items:flex-start;gap:0.6rem;">
+              <span class="badge ${tagColors[item.type]||'badge-gray'}" style="flex-shrink:0;margin-top:1px;">${item.type==='feature'?'New':item.type==='fix'?'Fix':'+'}</span>
+              <span>${item.text}</span>
+            </li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.cl-item.reveal:not(.vis)').forEach(el => {
+    const obs = new IntersectionObserver(e => { if(e[0].isIntersecting) e[0].target.classList.add('vis'); }, {threshold:0.1});
+    obs.observe(el);
+  });
+}
+
+async function loadCL() {
+  try {
+    const data = await sb.select('changelog', 'order=released_at.desc');
+    if (data && data.length) {
+      CL_DATA = data.map(d => ({
+        version: d.version, date: d.released_at, app: d.app || 'Abide',
+        headline: d.headline, summary: d.summary,
+        tags: d.tags ? d.tags.split(',') : [],
+        items: d.items ? JSON.parse(d.items) : []
+      }));
+    }
+  } catch(_) {}
+  renderCL(CL_DATA);
+}
+
+function filterCL(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => { b.className='btn btn-sm btn-outline filter-btn'; });
+  btn.className = 'btn btn-sm btn-primary filter-btn active';
+  renderCL(CL_DATA);
+}
+
+loadCL();
+</script>
+</body>
+</html>
